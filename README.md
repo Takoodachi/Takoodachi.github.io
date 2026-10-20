@@ -24,6 +24,10 @@ Then open http://localhost:8137.
 2. Push these files to `main`.
 3. Settings → Pages → Deploy from branch → `main` / root.
 
+## Releasing a change
+
+GitHub Pages lets browsers cache files for about 10 minutes. When `css/` or `js/` changes, bump the `?v=` number on their links in `index.html` so returning visitors don't get new HTML with old CSS.
+
 ## Editing content
 
 Projects, jobs and coursework are plain HTML in `index.html`. Each project card sets its preview colour with `--p-accent` in its `style` attribute.

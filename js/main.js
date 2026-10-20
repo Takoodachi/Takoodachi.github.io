@@ -495,6 +495,24 @@
     render();
   });
 
+  /* ---------- where I've worked: hovering a role draws the map ---------- */
+  $$(".job").forEach((job) => {
+    const btn = $(".role-btn", job), place = $(".job-place", job);
+    if (!btn || !place) return;
+    let hovered = false, pinned = false;
+    const sync = () => {
+      const open = hovered || pinned;
+      job.classList.toggle("is-open", open);
+      btn.setAttribute("aria-expanded", String(open));
+    };
+    const enter = (e) => { if (e.pointerType === "mouse") { hovered = true; sync(); } };
+    btn.addEventListener("pointerenter", enter);
+    place.addEventListener("pointerenter", enter);
+    job.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") { hovered = false; sync(); } });
+    // Tap, click or Enter keeps it open (touch screens and keyboards have no hover).
+    btn.addEventListener("click", () => { pinned = !pinned; if (!pinned) hovered = false; sync(); });
+  });
+
   /* ---------- palette picker ---------- */
   const pToggle = $(".palette-toggle"), pMenu = $("#palette-menu");
   if (pToggle && pMenu) {

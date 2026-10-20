@@ -655,7 +655,63 @@ button { font: inherit; color: inherit; }
 .job-points { display: grid; gap: 10px; max-width: 70ch; }
 .job-points li { position: relative; padding-left: 20px; }
 .job-points li::before { content: ""; position: absolute; left: 2px; top: .75em; width: 9px; height: 1px; background: var(--accent); }
-@media (max-width: 720px) { .job { grid-template-columns: minmax(0, 1fr); } .job-when { padding-top: 0; } }
+
+/* Role titles open a map of where the job was: hover on desktop, tap or Enter anywhere */
+.role-btn {
+  display: inline-flex; align-items: center; gap: .3em;
+  padding: 0; border: 0; background: none;
+  font: inherit; color: inherit; letter-spacing: inherit; text-align: left;
+  cursor: pointer;
+}
+.role-pin { width: .45em; height: .45em; flex: none; color: var(--fog); transition: color .3s, transform .4s var(--ease); }
+.job.is-open .role-pin { color: var(--accent); transform: translateY(-.08em); }
+.job.is-open .job-role { color: var(--accent); }
+
+.place-inner { display: grid; gap: 10px; align-content: start; min-height: 0; }
+.place-map { width: 100%; max-width: 220px; height: auto; overflow: visible; }
+.place-ghost { fill: none; stroke: var(--rule); stroke-width: 1.2; stroke-dasharray: 1.5 3.5; stroke-linecap: round; }
+.place-land {
+  fill: transparent; stroke: var(--accent); stroke-width: 1.6; stroke-linejoin: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1;
+  transition: stroke-dashoffset .4s ease, fill .3s;
+}
+.job.is-open .place-land {
+  stroke-dashoffset: 0;
+  fill: color-mix(in oklab, var(--accent) 10%, transparent);
+  transition: stroke-dashoffset 1.6s var(--ease-in-out), fill .8s ease 1.2s;
+}
+.place-pin { opacity: 0; transform: scale(0); transform-box: fill-box; transform-origin: center; transition: opacity .2s, transform .2s; }
+.job.is-open .place-pin { opacity: 1; transform: scale(1); transition: opacity .2s 1.3s, transform .5s cubic-bezier(.34, 1.56, .64, 1) 1.3s; }
+.pin-dot { fill: var(--accent); }
+.pin-ring { fill: none; stroke: var(--accent); stroke-width: 1.2; transform-box: fill-box; transform-origin: center; }
+.job.is-open .pin-ring { animation: pin-ring 1.8s ease-out 1.7s infinite; }
+@keyframes pin-ring { from { transform: scale(1); opacity: .9; } to { transform: scale(3.4); opacity: 0; } }
+.place-text { display: grid; gap: 2px; min-width: 0; }
+.place-name { font-weight: 500; }
+.place-coords { color: var(--fog); font-variant-numeric: tabular-nums; transition: color .3s; }
+.job.is-open .place-coords { color: var(--accent); }
+.place-note { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .5s var(--ease); }
+.place-note > p { min-height: 0; overflow: hidden; padding-top: 0; color: var(--fog); font-size: .9rem; line-height: 1.55; opacity: 0; transition: opacity .3s, padding-top .5s var(--ease); }
+.job.is-open .place-note { grid-template-rows: 1fr; }
+.job.is-open .place-note > p { padding-top: 10px; opacity: 1; transition-delay: .25s; }
+
+/* Wide screens: the map gets its own column and rests as a dotted outline. */
+@media (min-width: 1100px) {
+  .job { grid-template-columns: minmax(150px, 2.5fr) minmax(0, 7fr) minmax(200px, 2.5fr); }
+}
+/* Narrower: it folds away under the job until opened. */
+@media (max-width: 1099px) {
+  .job-place { grid-column: 2; display: grid; grid-template-rows: 0fr; transition: grid-template-rows .6s var(--ease); }
+  .place-inner { overflow: hidden; grid-template-columns: minmax(0, 160px) minmax(0, 1fr); align-items: center; gap: 20px; }
+  .job.is-open .job-place { grid-template-rows: 1fr; }
+  .job.is-open .place-inner { padding-top: 8px; }
+}
+@media (max-width: 720px) {
+  .job { grid-template-columns: minmax(0, 1fr); }
+  .job-when { padding-top: 0; }
+  .job-place { grid-column: 1; }
+  .place-inner { grid-template-columns: minmax(0, 120px) minmax(0, 1fr); }
+}
 
 /* ---------- about ---------- */
 .about { padding-block: clamp(72px, 10vw, 140px); border-top: 1px solid var(--rule); }
@@ -756,4 +812,5 @@ button { font: inherit; color: inherit; }
   .js .statement-text .w { opacity: 1; }
   .project-card { transform: none; }
   .project-card::after { opacity: 0; }
+  .job-place, .job-place * { transition-delay: 0s !important; }
 }
