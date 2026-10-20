@@ -411,10 +411,11 @@
 
   /* ---------- Number Link, playable ---------- */
   const nl = $("[data-nl]");
-  if (nl && window.NumberLink) {
+  // A new puzzle every visit. Generating takes a few dozen ms, so it waits for idle time instead of delaying first paint.
+  if (nl && window.NumberLink) (window.requestIdleCallback || setTimeout)(() => {
     const NL = window.NumberLink;
-    // Clue i is number i + 1. tests/numberlink.test.js proves this layout has exactly one solution.
-    const CLUES = [[0, 0], [1, 1], [3, 1], [0, 3], [2, 3], [3, 3], [4, 2]];
+    // Clue i is number i + 1; generate() guarantees exactly one solution (see tests/numberlink.test.js).
+    const CLUES = NL.generate(5).clues;
     const LAST = CLUES.length;
     const board = $("[data-nl-board]", nl), status = $("[data-nl-status]", nl), fill = $("[data-nl-fill]", nl);
     let state = NL.create(5, CLUES), t0 = 0, done = false, drawing = false;
@@ -492,7 +493,7 @@
       render();
     });
     render();
-  }
+  });
 
   /* ---------- palette picker ---------- */
   const pToggle = $(".palette-toggle"), pMenu = $("#palette-menu");

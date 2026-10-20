@@ -55,7 +55,80 @@
     return s.path.length === s.size * s.size && clueAt(s, s.path[s.path.length - 1]) === s.clues.length;
   }
 
-  var api = { create: create, start: start, extend: extend, solved: solved, clueAt: clueAt, reached: reached };
+  // Every way to finish a puzzle, stopping once `limit` are found. Paths are lists of square indexes (r * size + c).
+  function solutions(size, clues, limit) {
+    var n = size * size, last = clues.length, num = [], seen = [], cur = [], out = [];
+    clues.forEach(function (c, i) { num[c[0] * size + c[1]] = i + 1; });
+    (function walk(k, next) {
+      if (out.length >= limit) return;
+      seen[k] = true;
+      cur.push(k);
+      if (cur.length === n) {
+        if (num[k] === last) out.push(cur.slice());
+      } else if (num[k] !== last) {
+        var r = (k / size) | 0, c = k % size;
+        [[r + 1, c], [r - 1, c], [r, c + 1], [r, c - 1]].forEach(function (p) {
+          if (p[0] < 0 || p[1] < 0 || p[0] >= size || p[1] >= size) return;
+          var j = p[0] * size + p[1];
+          if (!seen[j] && (!num[j] || num[j] === next)) walk(j, num[j] ? next + 1 : next);
+        });
+      }
+      seen[k] = false;
+      cur.pop();
+    })(clues[0][0] * size + clues[0][1], 2);
+    return out;
+  }
+
+  // A new puzzle with exactly one solution: { clues, solution }.
+  function generate(size, rand) {
+    rand = rand || Math.random;
+    var n = size * size, pick = function (a) { return a[Math.floor(rand() * a.length)]; };
+
+    // 1. A random path through every square: start from a snake, then apply many
+    //    "backbite" moves (join an end to a neighbour, cut the edge that would close a loop).
+    var path = [];
+    for (var r = 0; r < size; r++) for (var c = 0; c < size; c++) path.push([r, r % 2 ? size - 1 - c : c]);
+    for (var t = 0; t < n * 60; t++) {
+      if (rand() < 0.5) path.reverse();
+      var end = path[n - 1];
+      var near = [[end[0] + 1, end[1]], [end[0] - 1, end[1]], [end[0], end[1] + 1], [end[0], end[1] - 1]]
+        .filter(function (p) { return p[0] >= 0 && p[1] >= 0 && p[0] < size && p[1] < size; });
+      var v = pick(near);
+      var j = path.findIndex(function (p) { return same(p, v); });
+      if (j < n - 2) path = path.slice(0, j + 1).concat(path.slice(j + 1).reverse());
+    }
+
+    // 2. Number squares along it until no other path fits the numbers.
+    var key = function (p) { return p.join(" "); };
+    var flat = path.map(function (p) { return p[0] * size + p[1]; });
+    var clueIdx = [0, n - 1];
+    var cluesOf = function (idx) { return idx.slice().sort(function (a, b) { return a - b; }).map(function (i) { return path[i]; }); };
+    var other = function (idx) {
+      return solutions(size, cluesOf(idx), 2).find(function (s) { return key(s) !== key(flat); });
+    };
+    for (var alt = other(clueIdx); alt; alt = other(clueIdx)) {
+      // Prefer a square where the other path disagrees; any unnumbered one guarantees progress.
+      var free = flat.map(function (_, i) { return i; }).filter(function (i) { return clueIdx.indexOf(i) < 0; });
+      var differs = free.filter(function (i) { return alt[i] !== flat[i]; });
+      clueIdx.push(pick(differs.length ? differs : free));
+    }
+
+    // 3. Drop numbers the answer doesn't need, then add a few back so it stays friendly.
+    clueIdx.slice(1).filter(function (i) { return i !== n - 1; })
+      .sort(function () { return rand() - 0.5; })
+      .forEach(function (i) {
+        var without = clueIdx.filter(function (x) { return x !== i; });
+        if (!other(without)) clueIdx = without;
+      });
+    while (clueIdx.length < 6) {
+      var spare = flat.map(function (_, i) { return i; }).filter(function (i) { return clueIdx.indexOf(i) < 0; });
+      clueIdx.push(pick(spare)); // extra numbers can't add solutions
+    }
+
+    return { clues: cluesOf(clueIdx), solution: path };
+  }
+
+  var api = { create: create, start: start, extend: extend, solved: solved, clueAt: clueAt, reached: reached, generate: generate, solutions: solutions };
   if (typeof module === "object" && module.exports) module.exports = api;
   else root.NumberLink = api;
 })(this);

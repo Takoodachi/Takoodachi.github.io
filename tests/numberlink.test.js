@@ -2,7 +2,7 @@
 const assert = require("node:assert/strict");
 const NL = require("../js/numberlink.js");
 
-// Must match CLUES in js/main.js.
+// A fixed puzzle for the rule checks below.
 const CLUES = [[0, 0], [1, 1], [3, 1], [0, 3], [2, 3], [3, 3], [4, 2]];
 const SOLUTION = [[0, 0], [0, 1], [1, 1], [1, 0], [2, 0], [3, 0], [4, 0], [4, 1], [3, 1], [2, 1], [2, 2], [1, 2], [0, 2], [0, 3], [0, 4], [1, 4], [1, 3], [2, 3], [2, 4], [3, 4], [4, 4], [4, 3], [3, 3], [3, 2], [4, 2]];
 const fresh = () => NL.create(5, CLUES);
@@ -13,18 +13,45 @@ let s = fresh();
 draw(s, SOLUTION);
 assert.ok(NL.solved(s));
 
-// It is the only solution: try every path the rules allow.
-const solutions = [];
-(function search(st) {
-  if (NL.solved(st)) { solutions.push(st.path.map(String).join(" ")); return; }
-  const [r, c] = st.path[st.path.length - 1];
-  for (const cell of [[r + 1, c], [r - 1, c], [r, c + 1], [r, c - 1]]) {
-    if (cell.some((v) => v < 0 || v > 4) || st.path.some((p) => p[0] === cell[0] && p[1] === cell[1])) continue;
-    const next = { ...st, path: st.path.slice() };
-    if (NL.extend(next, cell)) search(next);
-  }
-})((() => { const st = fresh(); NL.start(st, CLUES[0]); return st; })());
-assert.deepEqual(solutions, [SOLUTION.map(String).join(" ")]);
+// Every finished path the game itself would accept, found by trying each legal move.
+const allSolutions = (clues) => {
+  const found = [];
+  (function search(st) {
+    if (NL.solved(st)) { found.push(st.path.map(String).join(" ")); return; }
+    const [r, c] = st.path[st.path.length - 1];
+    for (const cell of [[r + 1, c], [r - 1, c], [r, c + 1], [r, c - 1]]) {
+      if (cell.some((v) => v < 0 || v > 4) || st.path.some((p) => p[0] === cell[0] && p[1] === cell[1])) continue;
+      const next = { ...st, path: st.path.slice() };
+      if (NL.extend(next, cell)) search(next);
+    }
+  })((() => { const st = NL.create(5, clues); NL.start(st, clues[0]); return st; })());
+  return found;
+};
+
+// It is the only solution.
+assert.deepEqual(allSolutions(CLUES), [SOLUTION.map(String).join(" ")]);
+
+// Generated puzzles: a path through every square, numbers in path order, and exactly one answer.
+let seed = 1;
+const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+const counts = [];
+let slowest = 0;
+for (let i = 1; i <= 60; i++) {
+  seed = i * 7919;
+  const t = performance.now();
+  const { clues, solution } = NL.generate(5, rand);
+  slowest = Math.max(slowest, performance.now() - t);
+  assert.equal(new Set(solution.map(String)).size, 25, "visits every square once");
+  solution.slice(1).forEach((p, k) => assert.equal(Math.abs(p[0] - solution[k][0]) + Math.abs(p[1] - solution[k][1]), 1, "steps are adjacent"));
+  const order = clues.map((c) => solution.findIndex((p) => p[0] === c[0] && p[1] === c[1]));
+  assert.deepEqual(order, [...order].sort((a, b) => a - b), "numbers follow the path");
+  assert.equal(order[0], 0);
+  assert.equal(order[order.length - 1], 24);
+  assert.deepEqual(allSolutions(clues), [solution.map(String).join(" ")], `seed ${i} has one answer`);
+  counts.push(clues.length);
+}
+assert.ok(Math.min(...counts) >= 6, "at least six numbers");
+console.log(`generated 60 puzzles: ${Math.min(...counts)}-${Math.max(...counts)} numbers, slowest ${slowest.toFixed(1)} ms`);
 
 // Only 1 can start a path.
 s = fresh();
