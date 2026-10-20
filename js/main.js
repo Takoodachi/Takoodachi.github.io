@@ -413,19 +413,19 @@
   const nl = $("[data-nl]");
   if (nl && window.NumberLink) {
     const NL = window.NumberLink;
-    const ENDS = { 1: [[0, 0], [4, 1]], 2: [[0, 2], [3, 1]], 3: [[0, 4], [3, 3]], 4: [[1, 2], [4, 2]], 5: [[1, 4], [4, 3]] };
-    const COLORS = { 1: "#a5adff", 2: "#ff9f7a", 3: "#7fdbca", 4: "#ffd36e", 5: "#f58ad8" };
-    const PROMPT = "Drag between matching numbers";
+    // Clue i is number i + 1. tests/numberlink.test.js proves this layout has exactly one solution.
+    const CLUES = [[0, 0], [1, 1], [3, 1], [0, 3], [2, 3], [3, 3], [4, 2]];
+    const LAST = CLUES.length;
     const board = $("[data-nl-board]", nl), status = $("[data-nl-status]", nl), fill = $("[data-nl-fill]", nl);
-    let state = NL.create(5, ENDS), t0 = 0, done = false;
+    let state = NL.create(5, CLUES), t0 = 0, done = false, drawing = false;
 
     const cells = [];
     for (let r = 0; r < 5; r++) {
       for (let c = 0; c < 5; c++) {
         const d = document.createElement("div");
         d.className = "nl-cell";
-        const e = NL.endAt(state, [r, c]);
-        if (e) { d.innerHTML = `<span class="nl-end">${e}</span>`; d.style.setProperty("--c", COLORS[e]); }
+        const n = NL.clueAt(state, [r, c]);
+        if (n) d.innerHTML = `<span class="nl-end">${n}</span>`;
         board.append(d);
         cells.push(d);
       }
@@ -437,60 +437,104 @@
     board.append(svg);
 
     const render = () => {
-      cells.forEach((d) => d.classList.remove("on"));
-      svg.innerHTML = Object.entries(state.paths).map(([n, p]) => {
-        p.forEach(([r, c]) => { const d = cells[r * 5 + c]; d.classList.add("on"); d.style.setProperty("--c", COLORS[n]); });
-        return p.length > 1 ? `<polyline stroke="${COLORS[n]}" points="${p.map(([r, c]) => `${c + 0.5},${r + 0.5}`).join(" ")}"/>` : "";
-      }).join("");
-      fill.textContent = `${NL.filled(state)} / 25 squares`;
+      const next = NL.reached(state) + 1;
+      cells.forEach((d, i) => {
+        d.classList.remove("on", "next");
+        if (!done && NL.clueAt(state, [Math.floor(i / 5), i % 5]) === next) d.classList.add("next");
+      });
+      state.path.forEach(([r, c]) => cells[r * 5 + c].classList.add("on"));
+      svg.innerHTML = state.path.length > 1 ? `<polyline points="${state.path.map(([r, c]) => `${c + 0.5},${r + 0.5}`).join(" ")}"/>` : "";
+      fill.textContent = `${state.path.length} / 25 squares`;
       if (done) return;
-      const joined = Object.keys(ENDS).filter((n) => NL.isJoined(state, n)).length;
-      status.textContent = !t0 ? PROMPT : joined === 5 ? "All joined. Now fill every square." : `${joined} of 5 pairs joined`;
+      status.textContent = !t0 ? `Start on 1, go through every number to ${LAST}`
+        : next > LAST ? "Every square has to be filled" : `Next: ${next}`;
     };
     const cellAt = (e) => {
       const r = board.getBoundingClientRect();
       return [clamp(Math.floor(((e.clientY - r.top) / r.height) * 5), 0, 4), clamp(Math.floor(((e.clientX - r.left) / r.width) * 5), 0, 4)];
     };
+    const finish = () => {
+      done = true;
+      drawing = false;
+      nl.classList.add("solved");
+      status.textContent = `Solved in ${((performance.now() - t0) / 1000).toFixed(1)} s`;
+    };
 
     board.addEventListener("pointerdown", (e) => {
       if (done || !NL.start(state, cellAt(e))) return;
+      drawing = true;
       board.setPointerCapture(e.pointerId);
       if (!t0) t0 = performance.now();
       render();
     });
     board.addEventListener("pointermove", (e) => {
-      if (!state.active) return;
+      if (!drawing) return;
       const [tr, tc] = cellAt(e);
       let moved = false;
       // Walk one square at a time toward the pointer so fast drags don't skip squares.
       for (let guard = 0; guard < 10; guard++) {
-        const p = state.paths[state.active];
-        const [r, c] = p[p.length - 1];
+        const [r, c] = state.path[state.path.length - 1];
         if (r === tr && c === tc) break;
-        const next = Math.abs(tr - r) >= Math.abs(tc - c) ? [r + Math.sign(tr - r), c] : [r, c + Math.sign(tc - c)];
-        if (!NL.extend(state, next)) break;
+        const step = Math.abs(tr - r) >= Math.abs(tc - c) ? [r + Math.sign(tr - r), c] : [r, c + Math.sign(tc - c)];
+        if (!NL.extend(state, step)) break;
         moved = true;
       }
-      if (moved) render();
+      if (!moved) return;
+      if (NL.solved(state)) finish();
+      render();
     });
-    const end = () => {
-      if (!state.active) return;
-      state.active = 0;
-      if (NL.solved(state)) {
-        done = true;
-        nl.classList.add("solved");
-        status.textContent = `Solved in ${((performance.now() - t0) / 1000).toFixed(1)} s`;
-      }
-    };
+    const end = () => { drawing = false; };
     board.addEventListener("pointerup", end);
     board.addEventListener("pointercancel", end);
     $("[data-nl-reset]", nl).addEventListener("click", () => {
-      state = NL.create(5, ENDS); t0 = 0; done = false;
+      state = NL.create(5, CLUES); t0 = 0; done = false;
       nl.classList.remove("solved");
-      cells.forEach((d) => { if (!d.firstChild) d.style.removeProperty("--c"); });
       render();
     });
     render();
+  }
+
+  /* ---------- palette picker ---------- */
+  const pToggle = $(".palette-toggle"), pMenu = $("#palette-menu");
+  if (pToggle && pMenu) {
+    const radios = $$('input[name="palette"]', pMenu);
+    const themeMeta = $('meta[name="theme-color"]'), icon = $('link[rel="icon"]');
+    const sync = () => {
+      const current = root.dataset.palette || "iris";
+      radios.forEach((r) => { r.checked = r.value === current; });
+      const cs = getComputedStyle(root);
+      const ink = cs.getPropertyValue("--ink").trim(), accent = cs.getPropertyValue("--accent").trim();
+      themeMeta.content = ink;
+      icon.href = "data:image/svg+xml," + encodeURIComponent(
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="${ink}"/><path d="M24 15v33h19" fill="none" stroke="${accent}" stroke-width="7"/></svg>`);
+    };
+    const apply = (name) => {
+      if (name === "iris") delete root.dataset.palette; else root.dataset.palette = name;
+      try { localStorage.setItem("palette", name); } catch { /* private mode: the choice just isn't remembered */ }
+      sync();
+    };
+    radios.forEach((r) => r.addEventListener("change", () => {
+      if (reduce || !document.startViewTransition) { apply(r.value); return; }
+      // The new palette grows out of the option that was picked.
+      const box = r.closest("label").getBoundingClientRect();
+      const x = box.left + box.width / 2, y = box.top + box.height / 2;
+      const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+      document.startViewTransition(() => apply(r.value)).ready.then(() => {
+        root.animate(
+          { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
+          { duration: 700, easing: "cubic-bezier(.65, 0, .35, 1)", pseudoElement: "::view-transition-new(root)" });
+      }).catch(() => {});
+    }));
+
+    const open = (v) => {
+      pMenu.hidden = !v;
+      pToggle.setAttribute("aria-expanded", String(v));
+      if (v) (radios.find((r) => r.checked) || radios[0]).focus({ preventScroll: true });
+    };
+    pToggle.addEventListener("click", () => open(pMenu.hidden));
+    document.addEventListener("click", (e) => { if (!pMenu.hidden && !e.target.closest(".palette")) open(false); });
+    addEventListener("keydown", (e) => { if (e.key === "Escape" && !pMenu.hidden) { open(false); pToggle.focus(); } });
+    sync();
   }
 
   /* ---------- copy email ---------- */

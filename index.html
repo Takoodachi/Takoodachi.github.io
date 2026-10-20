@@ -10,16 +10,19 @@
 <meta property="og:title" content="Duc Luong Tran · Front-end developer">
 <meta property="og:description" content="Offline-first web apps, interfaces built with care, and the code behind them.">
 <meta name="twitter:card" content="summary">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0d14'/%3E%3Cpath d='M20 16h10a16 16 0 0 1 0 32H20z' fill='none' stroke='%23a5adff' stroke-width='6'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0d14'/%3E%3Cpath d='M24 15v33h19' fill='none' stroke='%23a5adff' stroke-width='7'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,100..900&family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&display=swap">
 <link rel="stylesheet" href="css/style.css">
 <script>
   document.documentElement.classList.add('js');
-  // Palette preview: ?palette=amber|matcha|plum
-  var palette = new URLSearchParams(location.search).get('palette');
-  if (palette) document.documentElement.dataset.palette = palette;
+  // Set the palette before first paint: ?palette= link first, then the visitor's last pick.
+  (function () {
+    var p = new URLSearchParams(location.search).get('palette');
+    try { p = p || localStorage.getItem('palette'); } catch (e) {}
+    if (/^(amber|matcha|plum)$/.test(p)) document.documentElement.dataset.palette = p;
+  })();
 </script>
 </head>
 <body>
@@ -40,6 +43,18 @@
       </ul>
     </nav>
     <div class="header-tools">
+      <div class="palette">
+        <button class="palette-toggle mono" type="button" aria-expanded="false" aria-controls="palette-menu" aria-label="Color palette">
+          <span class="palette-dot" aria-hidden="true"></span><span class="palette-label" aria-hidden="true">Palette</span>
+        </button>
+        <fieldset class="palette-menu" id="palette-menu" hidden>
+          <legend class="palette-title mono">Pick a palette</legend>
+          <label class="palette-option"><input type="radio" name="palette" value="iris" id="palette-iris"><span class="sw" style="--b:#0b0d14; --a:#a5adff"></span><span>Ink and iris<small>Cool, like DevTools</small></span></label>
+          <label class="palette-option"><input type="radio" name="palette" value="amber" id="palette-amber"><span class="sw" style="--b:#081214; --a:#f4b74e"></span><span>Terminal amber<small>Warm CRT glow</small></span></label>
+          <label class="palette-option"><input type="radio" name="palette" value="matcha" id="palette-matcha"><span class="sw" style="--b:#0c0f0b; --a:#bdd48f"></span><span>Matcha<small>Soft green and calm</small></span></label>
+          <label class="palette-option"><input type="radio" name="palette" value="plum" id="palette-plum"><span class="sw" style="--b:#120d15; --a:#ffb59b"></span><span>Aubergine and peach<small>Warm and playful</small></span></label>
+        </fieldset>
+      </div>
       <button class="inspect-toggle mono" type="button" aria-pressed="false" title="Hover anything to see its box model. Esc to exit.">
         <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 2.5h9v4M2.5 2.5v9h4" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 8l6.5 2.4-2.8 1.1-1.1 2.8z" fill="currentColor"/></svg>
         <span>Inspect</span>
@@ -282,7 +297,7 @@
           <div class="project-meta">
             <p class="project-kicker mono"><span>Logic puzzle game</span><span>Dec 2025 – now</span></p>
             <h3 id="p-numberlink" class="project-title">Number Link</h3>
-            <p class="project-summary">Connect matching numbers without crossing paths. It runs in the browser and as a native Android app, with accounts and live leaderboards.</p>
+            <p class="project-summary">Draw one path that passes every number in order and fills the whole grid. It runs in the browser and as a native Android app, with accounts and live leaderboards.</p>
             <ul class="project-points">
               <li>Custom path validation tracks coordinates and collisions on a dynamic grid in real time.</li>
               <li>Speedrun, Blindfold and Word modes share one object-oriented state system.</li>
@@ -299,8 +314,8 @@
 
           <div class="project-visual nl-visual" data-visual>
             <div class="nl" data-nl>
-              <div class="nl-head mono"><span>Try it · 5 × 5</span><span data-nl-status role="status">Drag between matching numbers</span></div>
-              <div class="nl-board" data-nl-board role="group" aria-label="Number Link puzzle. Drag from a number to its match with a mouse or finger. Fill every square to win."></div>
+              <div class="nl-head mono"><span>Try it · 5 × 5</span><span data-nl-status role="status">Start on 1, go through every number to 7</span></div>
+              <div class="nl-board" data-nl-board role="group" aria-label="Number Link puzzle. With a mouse or finger, drag from 1 through 2, 3 and on to 7 in order, filling every square."></div>
               <div class="nl-foot mono"><span data-nl-fill>0 / 25 squares</span><button class="nl-reset" type="button" data-nl-reset>Reset</button></div>
             </div>
           </div>
