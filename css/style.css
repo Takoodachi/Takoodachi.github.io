@@ -588,6 +588,26 @@ button { font: inherit; color: inherit; }
 .bd-back { transform: rotateY(180deg); border-radius: .3em 0 0 .3em; }
 @keyframes turn { 0%, 20% { transform: rotateY(0); } 55%, 100% { transform: rotateY(-180deg); } }
 
+/* Holograph preview: wireframe black, cool white lines, yellow accent */
+.hg { background: #07080d; color: #eef1f7; }
+.hg .frame-bar { background: #0b0d14; border-bottom: 1px solid rgb(223 230 242 / .09); }
+.hg-body { flex: 1; display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.5fr); grid-template-rows: minmax(0, 1fr); min-height: 0; }
+.hg-panel { display: flex; flex-direction: column; gap: .9em; padding: 1.1em; background: #0b0d14; border-right: 1px solid rgb(223 230 242 / .09); min-width: 0; overflow: hidden; }
+.hg-logo { display: flex; align-items: center; gap: .5em; font-weight: 600; font-size: 1.05em; letter-spacing: .02em; }
+.hg-logo::before { content: ""; width: .55em; height: .55em; border-radius: 50%; background: #ffd84a; box-shadow: 0 0 .6em rgb(255 216 74 / .7); }
+.hg-preset { font: 500 .74em/1 var(--f-mono); color: #8b93a7; }
+.hg-eqs { display: grid; gap: .45em; padding: .7em .8em; border: 1px solid rgb(223 230 242 / .14); border-radius: .5em; background: #07080d; font: italic 1em/1.2 "Cambria Math", "Times New Roman", serif; }
+.hg-eqs p { white-space: nowrap; }
+.hg-sliders { display: grid; gap: .7em; }
+.hg-slider { display: grid; grid-template-columns: 1em minmax(0, 1fr) 2.4em; align-items: center; gap: .6em; font: italic .9em/1 "Cambria Math", "Times New Roman", serif; }
+.hg-slider b { position: relative; height: .22em; border-radius: 9px; background: rgb(223 230 242 / .16); }
+.hg-slider b i { position: absolute; left: calc(var(--v) * 100%); top: 50%; width: .8em; height: .8em; border-radius: 50%; background: #ffd84a; transform: translate(-50%, -50%); box-shadow: 0 0 .6em rgb(255 216 74 / .55); }
+.hg-slider em { font: 500 .85em/1 var(--f-mono); font-style: normal; color: #8b93a7; text-align: right; }
+.hg-view { position: relative; min-width: 0; overflow: hidden; }
+.hg-view canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hg-chip { position: absolute; left: .8em; top: .8em; padding: .4em .7em; border: 1px solid rgb(223 230 242 / .2); border-radius: 99px; background: rgb(7 8 13 / .6); font: 500 .72em/1 var(--f-mono); }
+.hg-t { position: absolute; right: .8em; bottom: .7em; font: 500 .72em/1 var(--f-mono); color: #8b93a7; font-variant-numeric: tabular-nums; }
+
 /* Number Link (playable) */
 .nl-visual { padding: clamp(14px, 4cqi, 40px); }
 .nl { width: min(100%, 420px); display: grid; gap: 12px; }

@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,100..900&family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&display=swap">
-<link rel="stylesheet" href="css/style.css?v=8">
+<link rel="stylesheet" href="css/style.css?v=11">
 <script>
   document.documentElement.classList.add('js');
   // Set the palette before first paint: ?palette= link first, then the visitor's last pick.
@@ -83,7 +83,7 @@
       </h1>
 
       <div class="hero-foot">
-        <p class="lede">I build web apps that load fast, keep working offline and move with intent. Below are five of them, plus the work I've shipped for clients and teams.</p>
+        <p class="lede">I build web apps that load fast, keep working offline and move with intent. Below are six of them, plus the work I've shipped for clients and teams.</p>
         <div class="hero-actions">
           <a class="btn btn-solid" href="#work">See the work <span aria-hidden="true">↓</span></a>
           <a class="btn" href="#contact">Get in touch</a>
@@ -99,15 +99,61 @@
 
   <section id="work" class="work" aria-labelledby="work-title">
     <div class="wrap section-head" data-reveal>
-      <p class="eyebrow mono">/work <span class="count">5 projects</span></p>
+      <p class="eyebrow mono">/work <span class="count">6 projects</span></p>
       <h2 id="work-title" class="section-title">Selected work</h2>
-      <p class="section-note">Every preview here is drawn in HTML and CSS with each app's own palette, so they stay sharp at any size. The last one is playable.</p>
+      <p class="section-note">Every preview here is drawn in code (HTML, CSS and canvas) with each app's own palette, so they stay sharp at any size. The last one is playable.</p>
     </div>
 
     <div class="projects wrap">
 
+      <!-- Holograph -->
+      <article class="project" style="--i:0; --p-accent:#ffd84a" aria-labelledby="p-holograph">
+        <div class="project-card">
+          <div class="project-meta">
+            <p class="project-kicker mono"><span>Differential equation visualizer</span><span>Oct 2026</span></p>
+            <h3 id="p-holograph" class="project-title">Holograph</h3>
+            <p class="project-summary">Type a differential equation and watch it move. Holograph reads ODEs and PDEs as plain text or LaTeX and draws them as hologram-style physical models on a three.js stage: springs, pendulums, orbits, strings, membranes and heated plates.</p>
+            <ul class="project-points">
+              <li>Parses plain text or LaTeX, works out what kind of equation it is and compiles it to fast JavaScript. Any extra letter becomes a slider.</li>
+              <li>Solves with RK4, sizing each step from a power-iteration estimate of stiffness. PDEs use finite differences with ghost cells at the boundaries.</li>
+              <li>Tests check the physics itself: an oscillator's period, the exact heat decay rate and 2D wave stability.</li>
+            </ul>
+            <ul class="stack mono" aria-label="Built with">
+              <li>JavaScript</li><li>three.js</li><li>WebGL</li><li>MathLive</li><li>math.js</li><li>node:test</li>
+            </ul>
+            <p class="project-links">
+              <a class="link" href="https://takoodachi.github.io/holograph/" target="_blank" rel="noopener">Open the app <span aria-hidden="true">↗</span></a>
+              <a class="link" href="https://github.com/Takoodachi/holograph" target="_blank" rel="noopener">Source <span aria-hidden="true">↗</span></a>
+            </p>
+          </div>
+
+          <div class="project-visual" data-visual data-tilt aria-hidden="true">
+            <div class="frame hg">
+              <div class="frame-bar"><i></i><i></i><i></i><span class="frame-url">takoodachi.github.io/holograph</span></div>
+              <div class="hg-body">
+                <div class="hg-panel">
+                  <p class="hg-logo">Holograph</p>
+                  <p class="hg-preset">Lorenz attractor</p>
+                  <div class="hg-eqs"><p>x′ = σ(y − x)</p><p>y′ = x(ρ − z) − y</p><p>z′ = xy − βz</p></div>
+                  <div class="hg-sliders">
+                    <div class="hg-slider"><span>σ</span><b><i style="--v:.4"></i></b><em>10</em></div>
+                    <div class="hg-slider"><span>ρ</span><b><i style="--v:.7"></i></b><em>28</em></div>
+                    <div class="hg-slider"><span>β</span><b><i style="--v:.27"></i></b><em>2.67</em></div>
+                  </div>
+                </div>
+                <div class="hg-view">
+                  <canvas data-hg-canvas></canvas>
+                  <span class="hg-chip">3D trajectory</span>
+                  <span class="hg-t">t = <span data-hg-t>0.00</span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
       <!-- Kotodama -->
-      <article class="project" style="--i:0; --p-accent:#c8102e" aria-labelledby="p-kotodama">
+      <article class="project" style="--i:1; --p-accent:#c8102e" aria-labelledby="p-kotodama">
         <div class="project-card">
           <div class="project-meta">
             <p class="project-kicker mono"><span>Japanese practice PWA</span><span>Aug 2026 – now</span></p>
@@ -152,7 +198,7 @@
       </article>
 
       <!-- Solo Leveling -->
-      <article class="project" style="--i:1; --p-accent:#ff5f1a" aria-labelledby="p-solo">
+      <article class="project" style="--i:2; --p-accent:#ff5f1a" aria-labelledby="p-solo">
         <div class="project-card">
           <div class="project-meta">
             <p class="project-kicker mono"><span>Workout + nutrition tracker</span><span>May 2026 – now</span></p>
@@ -199,7 +245,7 @@
       </article>
 
       <!-- PriceTrack -->
-      <article class="project" style="--i:2; --p-accent:#ff7448" aria-labelledby="p-price">
+      <article class="project" style="--i:3; --p-accent:#ff7448" aria-labelledby="p-price">
         <div class="project-card">
           <div class="project-meta">
             <p class="project-kicker mono"><span>Price comparison + tracking</span><span>Oct 2025 – Sep 2026</span></p>
@@ -247,7 +293,7 @@
       </article>
 
       <!-- Bella Duong -->
-      <article class="project" style="--i:3; --p-accent:#3a7a5e" aria-labelledby="p-bella">
+      <article class="project" style="--i:4; --p-accent:#3a7a5e" aria-labelledby="p-bella">
         <div class="project-card">
           <div class="project-meta">
             <p class="project-kicker mono"><span>Portfolio site, built for a client</span><span>Sep – Oct 2026</span></p>
@@ -292,7 +338,7 @@
       </article>
 
       <!-- Number Link -->
-      <article class="project" style="--i:4; --p-accent:var(--accent)" aria-labelledby="p-numberlink">
+      <article class="project" style="--i:5; --p-accent:var(--accent)" aria-labelledby="p-numberlink">
         <div class="project-card">
           <div class="project-meta">
             <p class="project-kicker mono"><span>Logic puzzle game</span><span>Dec 2025 – now</span></p>
@@ -454,7 +500,7 @@
   <a href="#top">Back to top <span aria-hidden="true">↑</span></a>
 </footer>
 
-<script src="js/numberlink.js?v=8"></script>
-<script src="js/main.js?v=8"></script>
+<script src="js/numberlink.js?v=11"></script>
+<script src="js/main.js?v=11"></script>
 </body>
 </html>

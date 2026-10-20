@@ -175,7 +175,8 @@
   /* ---------- project cards stack while scrolling (when they fit on screen) ---------- */
   const projects = $$(".project");
   const fitStack = () => {
-    const fits = !reduce && innerWidth > 960 && projects.every((p) => p.offsetHeight + 150 < innerHeight);
+    // Each card sticks 14px lower than the one before (CSS top), so later cards need more room.
+    const fits = !reduce && innerWidth > 960 && projects.every((p, i) => p.offsetHeight + 110 + i * 14 < innerHeight);
     root.classList.toggle("can-stack", fits);
     if (!fits) projects.forEach((p) => p.style.setProperty("--cover", 0));
   };
@@ -272,6 +273,73 @@
       `<polygon class="shape" points="${poly(values)}" fill="${fill}" stroke="${stroke}" stroke-width="1.5" stroke-linejoin="round"/>`;
     const shape = $(".shape", svg);
     return (vals) => shape.setAttribute("points", poly(vals));
+  }
+
+  /* Holograph: the Lorenz preset, integrated with RK4 and traced like the app's glowing wireframe */
+  const hg = $("[data-hg-canvas]");
+  if (hg) {
+    const visual = hg.closest("[data-visual]"), ctx = hg.getContext("2d"), tLabel = $("[data-hg-t]");
+    const SIGMA = 10, RHO = 28, BETA = 8 / 3, H = 0.005, LEN = 1600;
+    const f = ([x, y, z]) => [SIGMA * (y - x), x * (RHO - z) - y, x * y - BETA * z];
+    const step = (p) => {
+      const add = (a, k, s) => a.map((v, i) => v + s * k[i]);
+      const k1 = f(p), k2 = f(add(p, k1, H / 2)), k3 = f(add(p, k2, H / 2)), k4 = f(add(p, k3, H));
+      return p.map((v, i) => v + (H / 6) * (k1[i] + 2 * k2[i] + 2 * k3[i] + k4[i]));
+    };
+    let p = [1, 1, 1], t = 0, angle = -0.78; // the wings sit along x = y, so -45° shows them side by side
+    for (let i = 0; i < 6000; i++) p = step(p); // skip the run-in (30 time units) so it opens on both wings
+    const trail = [];
+    for (let i = 0; i < LEN; i++) { p = step(p); t += H; trail.push(p); }
+
+    const draw = () => {
+      const w = hg.clientWidth, h = hg.clientHeight, dpr = Math.min(devicePixelRatio || 1, 2);
+      if (!w || !h) return;
+      if (hg.width !== Math.round(w * dpr) || hg.height !== Math.round(h * dpr)) { hg.width = Math.round(w * dpr); hg.height = Math.round(h * dpr); }
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+      const c = Math.cos(angle), s = Math.sin(angle), ct = Math.cos(0.38), st = Math.sin(0.38), scale = Math.min(w, h) / 58;
+      // Orbit around the vertical z axis, tilted toward the camera, with a little perspective.
+      const proj = (x, y, z) => {
+        const X = x * c - y * s, D = x * s + y * c, Y = (z - 25) * ct - D * st, k = 90 / (90 + D * ct + (z - 25) * st);
+        return [w / 2 + X * scale * k, h * 0.54 - Y * scale * k];
+      };
+      const seg = (a, b) => { ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); };
+      ctx.globalCompositeOperation = "source-over";
+      ctx.strokeStyle = "rgba(223, 230, 242, .09)";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      for (let g = -30; g <= 30; g += 10) { seg(proj(g, -30, 0), proj(g, 30, 0)); seg(proj(-30, g, 0), proj(30, g, 0)); }
+      ctx.stroke();
+      // Older stretches of the trail are fainter; a wide faint pass under a thin bright one reads as glow.
+      ctx.globalCompositeOperation = "lighter";
+      ctx.lineJoin = "round";
+      const pts = trail.map((q) => proj(q[0], q[1], q[2])), bands = 8;
+      [[4, 0.1], [1.3, 0.85]].forEach(([lw, alpha]) => {
+        ctx.lineWidth = lw;
+        for (let b = 0; b < bands; b++) {
+          const from = Math.floor((pts.length * b) / bands), to = Math.min(pts.length - 1, Math.floor((pts.length * (b + 1)) / bands));
+          ctx.strokeStyle = `rgba(255, 216, 74, ${(alpha * (b + 1)) / bands})`;
+          ctx.beginPath();
+          ctx.moveTo(pts[from][0], pts[from][1]);
+          for (let i = from + 1; i <= to; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+          ctx.stroke();
+        }
+      });
+      const head = pts[pts.length - 1];
+      ctx.fillStyle = "#fff4c2";
+      ctx.beginPath();
+      ctx.arc(head[0], head[1], 2.4, 0, Math.PI * 2);
+      ctx.fill();
+      tLabel.textContent = t.toFixed(2);
+    };
+    draw();
+    addEventListener("resize", draw);
+    tickers.push([visual, () => {
+      for (let i = 0; i < 3; i++) { p = step(p); t += H; trail.push(p); }
+      trail.splice(0, trail.length - LEN);
+      angle = -0.78 + 0.45 * Math.sin(t * 0.25); // rock around that view instead of turning edge-on
+      draw();
+    }]);
   }
 
   /* Kotodama: a reading quiz that answers itself, plus heatmap and radar */
