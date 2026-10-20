@@ -80,6 +80,20 @@ p, h1, h2, h3, ul, ol, dl, dd { margin: 0; }
 ul, ol { padding: 0; list-style: none; }
 button { font: inherit; color: inherit; }
 ::selection { background: var(--accent); color: var(--ink); }
+
+/* Scrollbar in the palette: a slim pill on the page colour that lights up in the accent.
+   Chrome, Edge and Safari take the ::-webkit rules (rounded, inset thumb); Firefox takes the standard properties. */
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track, ::-webkit-scrollbar-corner { background: var(--ink); }
+::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--fog) 35%, var(--ink));
+  border: 3px solid var(--ink);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover, ::-webkit-scrollbar-thumb:active { background: var(--accent); }
+@supports not selector(::-webkit-scrollbar) {
+  html { scrollbar-width: thin; scrollbar-color: color-mix(in oklab, var(--fog) 35%, var(--ink)) var(--ink); }
+}
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
 
 .mono { font-family: var(--f-mono); font-size: .78rem; letter-spacing: .02em; }
