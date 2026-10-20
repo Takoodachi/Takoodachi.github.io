@@ -686,6 +686,11 @@ button { font: inherit; color: inherit; }
 .pin-ring { fill: none; stroke: var(--accent); stroke-width: 1.2; transform-box: fill-box; transform-origin: center; }
 .job.is-open .pin-ring { animation: pin-ring 1.8s ease-out 1.7s infinite; }
 @keyframes pin-ring { from { transform: scale(1); opacity: .9; } to { transform: scale(3.4); opacity: 0; } }
+/* Hoàng Sa and Trường Sa: dotted at rest, filled in after the coastline draws */
+.isle { fill: transparent; stroke: var(--rule); stroke-width: 1; transition: fill .3s, stroke .3s; }
+.isle-label { font: 500 8px "Segoe UI", system-ui, sans-serif; fill: var(--fog); opacity: .7; transition: fill .3s, opacity .3s; } /* Geist has no Vietnamese glyphs */
+.job.is-open .isle { fill: var(--accent); stroke: var(--accent); transition: fill .4s calc(1.4s + var(--d) * .3s), stroke .4s calc(1.4s + var(--d) * .3s); }
+.job.is-open .isle-label { fill: var(--paper); opacity: 1; transition-delay: calc(1.5s + var(--d) * .3s); }
 .place-text { display: grid; gap: 2px; min-width: 0; }
 .place-name { font-weight: 500; }
 .place-coords { color: var(--fog); font-variant-numeric: tabular-nums; transition: color .3s; }
@@ -705,6 +710,7 @@ button { font: inherit; color: inherit; }
   .place-inner { overflow: hidden; grid-template-columns: minmax(0, 160px) minmax(0, 1fr); align-items: center; gap: 20px; }
   .job.is-open .job-place { grid-template-rows: 1fr; }
   .job.is-open .place-inner { padding-top: 8px; }
+  .isle-label { font-size: 12px; } /* the map is drawn smaller here */
 }
 @media (max-width: 720px) {
   .job { grid-template-columns: minmax(0, 1fr); }
