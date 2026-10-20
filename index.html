@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Duc Luong Tran</title>
+<meta name="description" content="Duc Luong Tran, front-end developer and Computer Science + Math student at Lawrence University. Offline-first web apps, interfaces with care, and the code behind them.">
+<meta name="theme-color" content="#0b0d14">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Duc Luong Tran · Front-end developer">
+<meta property="og:description" content="Offline-first web apps, interfaces built with care, and the code behind them.">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0d14'/%3E%3Cpath d='M20 16h10a16 16 0 0 1 0 32H20z' fill='none' stroke='%23a5adff' stroke-width='6'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,100..900&family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<script>
+  document.documentElement.classList.add('js');
+  // Palette preview: ?palette=amber|matcha|plum
+  var palette = new URLSearchParams(location.search).get('palette');
+  if (palette) document.documentElement.dataset.palette = palette;
+</script>
+</head>
+<body>
+<a class="skip" href="#work">Skip to work</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="mark" href="#top" aria-label="Duc Luong Tran, back to top">
+      <span class="mark-box mono" aria-hidden="true">DLT</span>
+      <span class="mark-name">Duc Luong Tran</span>
+    </a>
+    <nav aria-label="Primary">
+      <ul class="nav">
+        <li><a href="#work">Work</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="header-tools">
+      <button class="inspect-toggle mono" type="button" aria-pressed="false" title="Hover anything to see its box model. Esc to exit.">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 2.5h9v4M2.5 2.5v9h4" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 8l6.5 2.4-2.8 1.1-1.1 2.8z" fill="currentColor"/></svg>
+        <span>Inspect</span>
+      </button>
+      <span class="clock mono"><span data-clock>--:--</span> in Appleton</span>
+    </div>
+  </div>
+  <div class="progress" aria-hidden="true"></div>
+</header>
+
+<main id="top">
+
+  <section class="hero" aria-labelledby="hero-name">
+    <div class="ruler ruler-x" aria-hidden="true"><span class="ruler-mark"></span></div>
+    <div class="ruler ruler-y" aria-hidden="true"><span class="ruler-mark"></span></div>
+    <div class="guide guide-x" aria-hidden="true"></div>
+    <div class="guide guide-y" aria-hidden="true"></div>
+
+    <div class="wrap hero-inner">
+      <p class="eyebrow mono hero-eyebrow"><span class="pulse" aria-hidden="true"></span>Front-end developer · CS + Math at Lawrence University</p>
+
+      <h1 id="hero-name" class="name" data-name aria-label="Duc Luong Tran">
+        <span class="name-line" aria-hidden="true">Duc Luong</span>
+        <span class="name-line" aria-hidden="true">Tran</span>
+        <span class="name-tag mono" aria-hidden="true">h1.name <b data-dims></b></span>
+      </h1>
+
+      <div class="hero-foot">
+        <p class="lede">I build web apps that load fast, keep working offline and move with intent. Below are five of them, plus the work I've shipped for clients and teams.</p>
+        <div class="hero-actions">
+          <a class="btn btn-solid" href="#work">See the work <span aria-hidden="true">↓</span></a>
+          <a class="btn" href="#contact">Get in touch</a>
+        </div>
+      </div>
+      <p class="coords mono" aria-hidden="true">x <span data-x>0</span> &nbsp;y <span data-y>0</span></p>
+    </div>
+  </section>
+
+  <section class="statement wrap" aria-label="How I work">
+    <p class="statement-text" data-scrub>I study Computer Science and Math at Lawrence University and spend most of my free time building for the web. I care about the details people feel before they notice them. Animations ease out instead of stopping dead. Pages keep working when the connection drops. Layouts hold together at 320 pixels wide.</p>
+  </section>
+
+  <section id="work" class="work" aria-labelledby="work-title">
+    <div class="wrap section-head" data-reveal>
+      <p class="eyebrow mono">/work <span class="count">5 projects</span></p>
+      <h2 id="work-title" class="section-title">Selected work</h2>
+      <p class="section-note">Every preview here is drawn in HTML and CSS with each app's own palette, so they stay sharp at any size. The last one is playable.</p>
+    </div>
+
+    <div class="projects wrap">
+
+      <!-- Kotodama -->
+      <article class="project" style="--i:0; --p-accent:#c8102e" aria-labelledby="p-kotodama">
+        <div class="project-card">
+          <div class="project-meta">
+            <p class="project-kicker mono"><span>Japanese practice PWA</span><span>Aug 2026 – now</span></p>
+            <h3 id="p-kotodama" class="project-title">Kotodama <span lang="ja" class="jp">言霊</span></h3>
+            <p class="project-summary">A dark, minimal app for drilling kana, kanji, words and sentences. Spaced repetition brings back whatever you miss, and it installs on a phone and keeps working offline.</p>
+            <ul class="project-points">
+              <li>Search all of JMdict, about 219,000 entries, fetched a few small files at a time.</li>
+              <li>All 2,136 jōyō kanji, about 7,700 JLPT words and 127 grammar drills.</li>
+              <li>Hand-written service worker caches pages, content and font slices.</li>
+              <li>Study heatmap, progress radar, spoken audio and sync across devices.</li>
+            </ul>
+            <ul class="stack mono" aria-label="Built with">
+              <li>Next.js 16</li><li>React 19</li><li>TypeScript</li><li>Tailwind v4</li><li>Motion</li><li>Zustand</li><li>Supabase</li><li>Vitest</li>
+            </ul>
+            <p class="project-links">
+              <a class="link" href="https://takoodachi.github.io/kotodama/" target="_blank" rel="noopener">Open the app <span aria-hidden="true">↗</span></a>
+              <a class="link" href="https://github.com/Takoodachi/kotodama" target="_blank" rel="noopener">Source <span aria-hidden="true">↗</span></a>
+            </p>
+          </div>
+
+          <div class="project-visual" data-visual data-tilt aria-hidden="true">
+            <div class="frame kd">
+              <div class="frame-bar"><i></i><i></i><i></i><span class="frame-url">takoodachi.github.io/kotodama</span></div>
+              <div class="kd-body">
+                <div class="kd-quiz">
+                  <p class="kd-label">Reading · <span data-kd-set>N5 kanji</span></p>
+                  <p class="kd-prompt" lang="ja" data-kd-prompt>水</p>
+                  <div class="kd-options" lang="ja" data-kd-options><span>みず</span><span>ひ</span><span>やま</span><span>き</span></div>
+                  <div class="kd-bar"><i data-kd-progress></i></div>
+                </div>
+                <div class="kd-side">
+                  <p class="kd-label">Study heatmap</p>
+                  <div class="kd-heat" data-kd-heat></div>
+                  <p class="kd-streak"><b>14</b> day streak</p>
+                  <p class="kd-label">Known by category</p>
+                  <svg class="kd-radar" viewBox="0 0 120 104" data-kd-radar></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Solo Leveling -->
+      <article class="project" style="--i:1; --p-accent:#ff5f1a" aria-labelledby="p-solo">
+        <div class="project-card">
+          <div class="project-meta">
+            <p class="project-kicker mono"><span>Workout + nutrition tracker</span><span>May 2026 – now</span></p>
+            <h3 id="p-solo" class="project-title">Solo Leveling</h3>
+            <p class="project-summary">A training log for a group of friends that turns workouts into rank-ups. It works offline first, installs on Android and iOS, and runs entirely on free tiers.</p>
+            <ul class="project-points">
+              <li>Everything lands in IndexedDB first, then syncs per user through Supabase with row-level security.</li>
+              <li>Ranks, a friends leaderboard, weekly recaps and a muscle-volume radar keep people coming back.</li>
+              <li>Ships to Android with Capacitor; the web build is served from Cloudflare Workers.</li>
+            </ul>
+            <ul class="stack mono" aria-label="Built with">
+              <li>React 19</li><li>TypeScript</li><li>Vite</li><li>Tailwind</li><li>Framer Motion</li><li>Dexie</li><li>Supabase</li><li>Recharts</li><li>Capacitor</li>
+            </ul>
+            <p class="project-links">
+              <a class="link" href="https://github.com/Takoodachi/solo-leveling" target="_blank" rel="noopener">Source <span aria-hidden="true">↗</span></a>
+            </p>
+          </div>
+
+          <div class="project-visual" data-visual data-tilt aria-hidden="true">
+            <div class="frame phone sl">
+              <div class="sl-notch"></div>
+              <div class="sl-top"><span>Week 21</span><span class="sl-pill">Push day</span></div>
+              <div class="sl-rank">
+                <div class="sl-badge"><span>B</span></div>
+                <div class="sl-rank-info">
+                  <p class="sl-small">Current rank</p>
+                  <p class="sl-rank-name">B-Rank Hunter</p>
+                  <div class="sl-xp"><i></i></div>
+                  <p class="sl-small"><span data-sl-xp>1,280</span> / 2,000 XP</p>
+                </div>
+              </div>
+              <div class="sl-card">
+                <p class="sl-small">Weekly volume by muscle</p>
+                <svg class="sl-radar" viewBox="0 0 200 172" data-sl-radar></svg>
+              </div>
+              <div class="sl-stats">
+                <div><b>12</b><span>day streak</span></div>
+                <div><b>18.4k</b><span>kg lifted</span></div>
+                <div><b>2,140</b><span>kcal</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- PriceTrack -->
+      <article class="project" style="--i:2; --p-accent:#ff7448" aria-labelledby="p-price">
+        <div class="project-card">
+          <div class="project-meta">
+            <p class="project-kicker mono"><span>Price comparison + tracking</span><span>Oct 2025 – Sep 2026</span></p>
+            <h3 id="p-price" class="project-title">PriceTrack</h3>
+            <p class="project-summary">Search once, compare prices at official stores like Amazon, Best Buy, Walmart and Target, and track favorites on a dashboard that re-checks prices in the background.</p>
+            <ul class="project-points">
+              <li>Queries every store in parallel, answers within 2.5 s and streams in slow sources as they arrive.</li>
+              <li>Matches one product across stores by UPC, model number and title similarity, conservatively.</li>
+              <li>Redis cache with single-flight requests; a BullMQ worker runs the scheduled re-checks.</li>
+            </ul>
+            <ul class="stack mono" aria-label="Built with">
+              <li>React 19</li><li>TanStack Query</li><li>Tailwind v4</li><li>Express 5</li><li>PostgreSQL</li><li>Redis</li><li>BullMQ</li><li>Turborepo</li><li>Docker</li>
+            </ul>
+            <p class="project-links">
+              <a class="link" href="https://github.com/Takoodachi/price-tracking-web-app-frontend" target="_blank" rel="noopener">Source <span aria-hidden="true">↗</span></a>
+            </p>
+          </div>
+
+          <div class="project-visual" data-visual data-tilt aria-hidden="true">
+            <div class="frame pt">
+              <div class="frame-bar"><i></i><i></i><i></i><span class="frame-url">localhost:5173/search</span></div>
+              <div class="pt-body">
+                <div class="pt-search">
+                  <svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5 14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                  <span data-pt-query>wireless noise-cancelling headphones</span><i class="pt-caret"></i>
+                </div>
+                <div class="pt-card">
+                  <div class="pt-product">
+                    <div class="pt-thumb"><svg viewBox="0 0 40 40"><path d="M9 24v-4a11 11 0 0 1 22 0v4" fill="none" stroke="currentColor" stroke-width="3"/><rect x="6" y="22" width="7" height="11" rx="3" fill="currentColor"/><rect x="27" y="22" width="7" height="11" rx="3" fill="currentColor"/></svg></div>
+                    <div>
+                      <p class="pt-name">Over-ear ANC headphones</p>
+                      <p class="pt-sub" data-pt-note>Matched across 5 stores by model number</p>
+                    </div>
+                  </div>
+                  <ul class="pt-offers" data-pt-offers></ul>
+                  <div class="pt-chart">
+                    <svg viewBox="0 0 240 56" preserveAspectRatio="none" data-pt-chart><path class="pt-area"/><path class="pt-line"/></svg>
+                    <span class="pt-checked">Re-checked <span data-pt-checked>2 min</span> ago</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Bella Duong -->
+      <article class="project" style="--i:3; --p-accent:#3a7a5e" aria-labelledby="p-bella">
+        <div class="project-card">
+          <div class="project-meta">
+            <p class="project-kicker mono"><span>Portfolio site, built for a client</span><span>Sep – Oct 2026</span></p>
+            <h3 id="p-bella" class="project-title">Bella Duong</h3>
+            <p class="project-summary">A portfolio for a student writer, leader, performer and photographer. Paper-textured, warm and bilingual in spirit, written by hand with a small design and motion system.</p>
+            <ul class="project-points">
+              <li>Design tokens and three named easing curves keep motion consistent across every page.</li>
+              <li>Paper grain is generated with SVG noise, so the texture costs no image downloads.</li>
+              <li>A custom flip-book turns articles into pages that turn around the spine, plus a PDF.js reader for research.</li>
+            </ul>
+            <ul class="stack mono" aria-label="Built with">
+              <li>HTML</li><li>CSS</li><li>JavaScript</li><li>SVG filters</li><li>PDF.js</li><li>GitHub Pages</li>
+            </ul>
+            <p class="project-links">
+              <a class="link" href="https://takoodachi.github.io/bella-portfolio/" target="_blank" rel="noopener">Visit the site <span aria-hidden="true">↗</span></a>
+              <a class="link" href="https://github.com/Takoodachi/bella-portfolio" target="_blank" rel="noopener">Source <span aria-hidden="true">↗</span></a>
+            </p>
+          </div>
+
+          <div class="project-visual" data-visual data-tilt aria-hidden="true">
+            <div class="frame bd">
+              <div class="frame-bar"><i></i><i></i><i></i><span class="frame-url">takoodachi.github.io/bella-portfolio</span></div>
+              <div class="bd-body">
+                <div class="bd-nav"><span class="bd-logo">Bella Duong</span><span>Writing</span><span>Leadership</span><span>Arts</span><span>Photography</span></div>
+                <div class="bd-hero">
+                  <div class="bd-text">
+                    <p class="bd-hand">Hello,</p>
+                    <p class="bd-title">Xin chào</p>
+                    <p class="bd-copy">American on paper, Vietnamese in the kitchen. A storyteller in both.</p>
+                    <span class="bd-btn">Read the memoir</span>
+                  </div>
+                  <div class="bd-book">
+                    <div class="bd-page bd-left"><i></i><i></i><i></i><i></i><i></i></div>
+                    <div class="bd-page bd-right"><i></i><i></i><i></i><i></i></div>
+                    <div class="bd-leaf"><div class="bd-face bd-front"><b>Memoir</b><i></i><i></i><i></i></div><div class="bd-face bd-back"><i></i><i></i><i></i><i></i></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Number Link -->
+      <article class="project" style="--i:4; --p-accent:var(--accent)" aria-labelledby="p-numberlink">
+        <div class="project-card">
+          <div class="project-meta">
+            <p class="project-kicker mono"><span>Logic puzzle game</span><span>Dec 2025 – now</span></p>
+            <h3 id="p-numberlink" class="project-title">Number Link</h3>
+            <p class="project-summary">Connect matching numbers without crossing paths. It runs in the browser and as a native Android app, with accounts and live leaderboards.</p>
+            <ul class="project-points">
+              <li>Custom path validation tracks coordinates and collisions on a dynamic grid in real time.</li>
+              <li>Speedrun, Blindfold and Word modes share one object-oriented state system.</li>
+              <li>Firebase Auth and Firestore handle accounts, leaderboards and cross-device saves.</li>
+            </ul>
+            <ul class="stack mono" aria-label="Built with">
+              <li>JavaScript</li><li>HTML5 Canvas</li><li>CSS3</li><li>Firebase</li><li>Android</li>
+            </ul>
+            <p class="project-links">
+              <a class="link" href="https://takoodachi.github.io/numberlink-game/" target="_blank" rel="noopener">Play the full game <span aria-hidden="true">↗</span></a>
+              <a class="link" href="https://github.com/Takoodachi/numberlink-game" target="_blank" rel="noopener">Source <span aria-hidden="true">↗</span></a>
+            </p>
+          </div>
+
+          <div class="project-visual nl-visual" data-visual>
+            <div class="nl" data-nl>
+              <div class="nl-head mono"><span>Try it · 5 × 5</span><span data-nl-status role="status">Drag between matching numbers</span></div>
+              <div class="nl-board" data-nl-board role="group" aria-label="Number Link puzzle. Drag from a number to its match with a mouse or finger. Fill every square to win."></div>
+              <div class="nl-foot mono"><span data-nl-fill>0 / 25 squares</span><button class="nl-reset" type="button" data-nl-reset>Reset</button></div>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <p class="wrap also" data-reveal>Also on GitHub: <a class="link" href="https://github.com/Takoodachi/gemini-extension-portal" target="_blank" rel="noopener">Gemini Extension Portal <span aria-hidden="true">↗</span></a>, a browser extension for chatting with Gemini on any website.</p>
+  </section>
+
+  <section id="experience" class="experience wrap" aria-labelledby="exp-title">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow mono">/experience</p>
+      <h2 id="exp-title" class="section-title">Where I've worked</h2>
+    </div>
+
+    <ol class="jobs">
+      <li class="job" data-reveal>
+        <p class="job-when mono"><time datetime="2026-07">Jul 2026</time> – <time datetime="2026-09">Sep 2026</time></p>
+        <div class="job-main">
+          <h3 class="job-role">Front-End Developer</h3>
+          <p class="job-org">Freelance · Appleton, WI</p>
+          <ul class="job-points">
+            <li>Built a responsive design system for a comics platform with CSS custom properties, turning static mockups into a 6 / 4 / 2 column grid for desktop, tablet and phone.</li>
+            <li>Moved a legacy third-party theme from float and flex layouts to CSS Grid, keeping every change in separate templates so theme updates stay safe.</li>
+            <li>Untangled cascade conflicts in a 15,000-line stylesheet and added filemtime-based cache busting.</li>
+          </ul>
+        </div>
+      </li>
+      <li class="job" data-reveal>
+        <p class="job-when mono"><time datetime="2025-07">Jul 2025</time> – <time datetime="2025-09">Sep 2025</time></p>
+        <div class="job-main">
+          <h3 class="job-role">Full Stack Developer</h3>
+          <p class="job-org">FPT IS · Hanoi, Vietnam</p>
+          <ul class="job-points">
+            <li>Built an AI conversion service that turns PDFs, DOCX and other documents into editable HTML templates with up to 90% fidelity to the original.</li>
+            <li>Designed and built a chatbot component for a B2B product on the Gemini API.</li>
+            <li>Tuned prompts to cut user wait time to under a minute while keeping answers relevant.</li>
+            <li>Tested features with cross-functional teams to find bugs and smooth out the experience.</li>
+          </ul>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section id="about" class="about wrap" aria-labelledby="about-title">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow mono">/about</p>
+      <h2 id="about-title" class="section-title">Education and toolbox</h2>
+    </div>
+
+    <div class="about-grid">
+      <div class="edu" data-reveal>
+        <p class="edu-school">Lawrence University</p>
+        <p class="edu-degree">B.A., double major in Computer Science and Mathematics</p>
+        <dl class="facts">
+          <div><dt class="mono">GPA</dt><dd>3.98</dd></div>
+          <div><dt class="mono">Graduating</dt><dd>Nov 2027</dd></div>
+          <div><dt class="mono">Based in</dt><dd>Appleton, WI</dd></div>
+        </dl>
+        <p class="mini-label mono">Coursework</p>
+        <ul class="chips">
+          <li>Data Structures &amp; Algorithm Analysis</li><li>Web Programming</li><li>Computer Graphics</li><li>Data-Scientific Programming</li><li>Intermediate Programming</li><li>Real Analysis</li><li>Number Theory</li><li>ODE</li><li>PDE</li>
+        </ul>
+      </div>
+
+      <div class="tools" data-reveal>
+        <div class="tool-group">
+          <p class="mini-label mono">Languages</p>
+          <ul><li>JavaScript</li><li>TypeScript</li><li>HTML</li><li>CSS</li><li>Java</li><li>C++</li><li>Python</li><li>R</li><li>SQL</li></ul>
+        </div>
+        <div class="tool-group">
+          <p class="mini-label mono">Frameworks</p>
+          <ul><li>React</li><li>Next.js</li><li>Node.js</li><li>Express</li><li>Tailwind CSS</li><li>Framer Motion</li><li>TanStack Query</li><li>Zustand</li></ul>
+        </div>
+        <div class="tool-group">
+          <p class="mini-label mono">Data and backend</p>
+          <ul><li>PostgreSQL</li><li>Redis</li><li>Supabase</li><li>Firebase</li><li>IndexedDB</li><li>BullMQ</li></ul>
+        </div>
+        <div class="tool-group">
+          <p class="mini-label mono">Tooling</p>
+          <ul><li>Git + GitHub</li><li>Vite</li><li>Vitest</li><li>Docker</li><li>Turborepo</li><li>Capacitor</li><li>Cloudflare</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact" aria-labelledby="contact-title">
+    <div class="wrap">
+      <p class="eyebrow mono">/contact</p>
+      <h2 id="contact-title" class="contact-title" data-stretch aria-label="Let's build something.">Let's build something.</h2>
+      <div class="contact-row">
+        <p class="contact-copy">I'm open to software engineering and front-end internships. Email is the fastest way to reach me.</p>
+        <div class="contact-actions">
+          <a class="email" href="mailto:luongdtran06@gmail.com">luongdtran06@gmail.com</a>
+          <button class="btn" type="button" data-copy="luongdtran06@gmail.com">Copy email</button>
+          <a class="btn" href="https://github.com/Takoodachi" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer wrap mono">
+  <p>© 2026 Duc Luong Tran</p>
+  <p>Hand-written HTML, CSS and JavaScript. No framework, no template.</p>
+  <a href="#top">Back to top <span aria-hidden="true">↑</span></a>
+</footer>
+
+<script src="js/numberlink.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
