@@ -159,12 +159,14 @@
   const scrub = $("[data-scrub]");
   let words = [];
   if (scrub) {
-    const accent = new Set(["feel", "320", "pixels", "wide."]);
     const text = scrub.textContent.trim().split(/\s+/);
+    // data-accent names one phrase to colour; find where it starts in the paragraph.
+    const phrase = (scrub.dataset.accent || "").split(/\s+/).filter(Boolean);
+    const at = phrase.length ? text.findIndex((_, i) => phrase.every((p, k) => text[i + k] === p)) : -1;
     scrub.textContent = "";
     text.forEach((w, i) => {
       const s = document.createElement("span");
-      s.className = "w" + (accent.has(w) ? " em" : "");
+      s.className = "w" + (at >= 0 && i >= at && i < at + phrase.length ? " em" : "");
       s.textContent = w;
       scrub.append(s, i < text.length - 1 ? " " : "");
     });
@@ -482,22 +484,15 @@
   // A new puzzle every visit. Generating takes a few dozen ms, so it waits for idle time instead of delaying first paint.
   if (nl && window.NumberLink) (window.requestIdleCallback || setTimeout)(() => {
     const NL = window.NumberLink;
-    // Clue i is number i + 1; generate() guarantees exactly one solution (see tests/numberlink.test.js).
-    const CLUES = NL.generate(5).clues;
-    const LAST = CLUES.length;
-    const board = $("[data-nl-board]", nl), status = $("[data-nl-status]", nl), fill = $("[data-nl-fill]", nl);
-    let state = NL.create(5, CLUES), t0 = 0, done = false, drawing = false;
+    const board = $("[data-nl-board]", nl), status = $("[data-nl-status]", nl), fill = $("[data-nl-fill]", nl), round = $("[data-nl-round]", nl);
+    let CLUES, LAST, state, t0 = 0, done = false, drawing = false, puzzle = 0, nextTimer = 0;
 
     const cells = [];
-    for (let r = 0; r < 5; r++) {
-      for (let c = 0; c < 5; c++) {
-        const d = document.createElement("div");
-        d.className = "nl-cell";
-        const n = NL.clueAt(state, [r, c]);
-        if (n) d.innerHTML = `<span class="nl-end">${n}</span>`;
-        board.append(d);
-        cells.push(d);
-      }
+    for (let i = 0; i < 25; i++) {
+      const d = document.createElement("div");
+      d.className = "nl-cell";
+      board.append(d);
+      cells.push(d);
     }
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.setAttribute("viewBox", "0 0 5 5");
@@ -522,11 +517,31 @@
       const r = board.getBoundingClientRect();
       return [clamp(Math.floor(((e.clientY - r.top) / r.height) * 5), 0, 4), clamp(Math.floor(((e.clientX - r.left) / r.width) * 5), 0, 4)];
     };
+    // A fresh board: clue i is number i + 1, and generate() guarantees exactly one solution (tests/numberlink.test.js).
+    const load = () => {
+      clearTimeout(nextTimer);
+      CLUES = NL.generate(5).clues;
+      LAST = CLUES.length;
+      state = NL.create(5, CLUES);
+      t0 = 0; done = false; drawing = false;
+      cells.forEach((d, i) => {
+        const n = NL.clueAt(state, [Math.floor(i / 5), i % 5]);
+        d.innerHTML = n ? `<span class="nl-end">${n}</span>` : "";
+      });
+      round.textContent = ++puzzle;
+      nl.classList.remove("solved", "swapping");
+      render();
+    };
     const finish = () => {
       done = true;
       drawing = false;
       nl.classList.add("solved");
-      status.textContent = `Solved in ${((performance.now() - t0) / 1000).toFixed(1)} s`;
+      status.textContent = `Solved in ${((performance.now() - t0) / 1000).toFixed(1)} s. Next board coming…`;
+      // Let the win land, fade the board out, then swap in a new one.
+      nextTimer = setTimeout(() => {
+        nl.classList.add("swapping");
+        nextTimer = setTimeout(load, reduce ? 0 : 350);
+      }, 1800);
     };
 
     board.addEventListener("pointerdown", (e) => {
@@ -555,12 +570,13 @@
     const end = () => { drawing = false; };
     board.addEventListener("pointerup", end);
     board.addEventListener("pointercancel", end);
+    // Reset clears the current board; once it's solved, it skips straight to the next one.
     $("[data-nl-reset]", nl).addEventListener("click", () => {
-      state = NL.create(5, CLUES); t0 = 0; done = false;
-      nl.classList.remove("solved");
+      if (done) { load(); return; }
+      state = NL.create(5, CLUES); t0 = 0;
       render();
     });
-    render();
+    load();
   });
 
   /* ---------- where I've worked: hovering a role draws the map ---------- */

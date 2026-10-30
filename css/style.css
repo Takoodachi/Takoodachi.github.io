@@ -625,7 +625,9 @@ button { font: inherit; color: inherit; }
   user-select: none;
   -webkit-user-select: none;
   cursor: pointer;
+  transition: opacity .35s, transform .35s var(--ease), border-color .3s;
 }
+.nl.swapping .nl-board { opacity: 0; transform: scale(.96); }
 .nl-cell { position: relative; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); transition: background-color .25s; }
 .nl-cell:nth-child(5n) { border-right: 0; }
 .nl-cell:nth-last-child(-n+6) { border-bottom: 0; }

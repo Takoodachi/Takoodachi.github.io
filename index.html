@@ -4,17 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Duc Luong Tran</title>
-<meta name="description" content="Duc Luong Tran, front-end developer and Computer Science + Math student at Lawrence University. Offline-first web apps, interfaces with care, and the code behind them.">
+<meta name="description" content="Duc Luong Tran, aspiring product manager and Computer Science + Math student at Lawrence University. Products shaped around the people who use them, and built end to end.">
 <meta name="theme-color" content="#0b0d14">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Duc Luong Tran · Front-end developer">
-<meta property="og:description" content="Offline-first web apps, interfaces built with care, and the code behind them.">
+<meta property="og:title" content="Duc Luong Tran · Aspiring product manager">
+<meta property="og:description" content="Products shaped around the people who use them, and built end to end.">
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0d14'/%3E%3Cpath d='M24 15v33h19' fill='none' stroke='%23a5adff' stroke-width='7'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,100..900&family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&display=swap">
-<link rel="stylesheet" href="css/style.css?v=11">
+<link rel="stylesheet" href="css/style.css?v=12">
 <script>
   document.documentElement.classList.add('js');
   // Set the palette before first paint: ?palette= link first, then the visitor's last pick.
@@ -74,7 +74,7 @@
     <div class="guide guide-y" aria-hidden="true"></div>
 
     <div class="wrap hero-inner">
-      <p class="eyebrow mono hero-eyebrow"><span class="pulse" aria-hidden="true"></span>Front-end developer · CS + Math at Lawrence University</p>
+      <p class="eyebrow mono hero-eyebrow"><span class="pulse" aria-hidden="true"></span>Aspiring product manager · CS + Math at Lawrence University</p>
 
       <h1 id="hero-name" class="name" data-name aria-label="Duc Luong Tran">
         <span class="name-line" aria-hidden="true">Duc Luong</span>
@@ -83,7 +83,7 @@
       </h1>
 
       <div class="hero-foot">
-        <p class="lede">I build web apps that load fast, keep working offline and move with intent. Below are six of them, plus the work I've shipped for clients and teams.</p>
+        <p class="lede">I shape products around the people who use them, and I build them too, so I know what each decision costs. Below are six I took from an idea to a working product, plus the work I've done for clients and teams.</p>
         <div class="hero-actions">
           <a class="btn btn-solid" href="#work">See the work <span aria-hidden="true">↓</span></a>
           <a class="btn" href="#contact">Get in touch</a>
@@ -94,14 +94,14 @@
   </section>
 
   <section class="statement wrap" aria-label="How I work">
-    <p class="statement-text" data-scrub>I study Computer Science and Math at Lawrence University and spend most of my free time building for the web. I care about the details people feel before they notice them. Animations ease out instead of stopping dead. Pages keep working when the connection drops. Layouts hold together at 320 pixels wide.</p>
+    <p class="statement-text" data-scrub data-accent="deciding what to build.">I study Computer Science and Math at Lawrence University. The part of making things I enjoy most is deciding what to build. I want to know who it's for, what they're trying to do and where they get stuck, then shape the product around that. Writing the code is how I test the idea.</p>
   </section>
 
   <section id="work" class="work" aria-labelledby="work-title">
     <div class="wrap section-head" data-reveal>
       <p class="eyebrow mono">/work <span class="count">6 projects</span></p>
       <h2 id="work-title" class="section-title">Selected work</h2>
-      <p class="section-note">Every preview here is drawn in code (HTML, CSS and canvas) with each app's own palette, so they stay sharp at any size. The last one is playable.</p>
+      <p class="section-note">Each project starts with a person and a problem. The previews are drawn in code with each app's own palette, and the last one is playable.</p>
     </div>
 
     <div class="projects wrap">
@@ -112,14 +112,14 @@
           <div class="project-meta">
             <p class="project-kicker mono"><span>Differential equation visualizer</span><span>Oct 2026</span></p>
             <h3 id="p-holograph" class="project-title">Holograph</h3>
-            <p class="project-summary">Type a differential equation and watch it move. Holograph reads ODEs and PDEs as plain text or LaTeX and draws them as hologram-style physical models on a three.js stage: springs, pendulums, orbits, strings, membranes and heated plates.</p>
+            <p class="project-summary">Differential equations are hard to picture from symbols alone. Holograph lets you type one and watch it move as a physical model: a spring, a pendulum, an orbit, a vibrating string or a heated plate.</p>
             <ul class="project-points">
-              <li>Parses plain text or LaTeX, works out what kind of equation it is and compiles it to fast JavaScript. Any extra letter becomes a slider.</li>
-              <li>Solves with RK4, sizing each step from a power-iteration estimate of stiffness. PDEs use finite differences with ghost cells at the boundaries.</li>
-              <li>Tests check the physics itself: an oscillator's period, the exact heat decay rate and 2D wave stability.</li>
+              <li>Accepts the notation people already write, plain text or pasted LaTeX, so there's nothing new to learn first.</li>
+              <li>Turns every extra letter into a slider, like Desmos, so you can see what each parameter does by dragging it.</li>
+              <li>Chooses the picture from the type of equation, and tests check the physics, so what you see matches the math.</li>
             </ul>
             <ul class="stack mono" aria-label="Built with">
-              <li>JavaScript</li><li>three.js</li><li>WebGL</li><li>MathLive</li><li>math.js</li><li>node:test</li>
+              <li>three.js</li><li>WebGL</li><li>MathLive</li><li>JavaScript</li>
             </ul>
             <p class="project-links">
               <a class="link" href="https://takoodachi.github.io/holograph/" target="_blank" rel="noopener">Open the app <span aria-hidden="true">↗</span></a>
@@ -158,15 +158,15 @@
           <div class="project-meta">
             <p class="project-kicker mono"><span>Japanese practice PWA</span><span>Aug 2026 – now</span></p>
             <h3 id="p-kotodama" class="project-title">Kotodama <span lang="ja" class="jp">言霊</span></h3>
-            <p class="project-summary">A dark, minimal app for drilling kana, kanji, words and sentences. Spaced repetition brings back whatever you miss, and it installs on a phone and keeps working offline.</p>
+            <p class="project-summary">A Japanese practice app built around choice. Learners mix exactly what they want to drill, from single kana to full sentences, and spaced repetition brings back whatever they miss.</p>
             <ul class="project-points">
-              <li>Search all of JMdict, about 219,000 entries, fetched a few small files at a time.</li>
-              <li>All 2,136 jōyō kanji, about 7,700 JLPT words and 127 grammar drills.</li>
-              <li>Hand-written service worker caches pages, content and font slices.</li>
-              <li>Study heatmap, progress radar, spoken audio and sync across devices.</li>
+              <li>A four-step guide on the first visit and keyboard shortcuts for every action, so beginners and fast learners are both served.</li>
+              <li>Works offline after one visit and asks the browser to keep progress safe, because lost progress can mean a lost learner.</li>
+              <li>A year-long study heatmap and a progress radar show learners how far they've come.</li>
+              <li>Covers all of JMdict (about 219,000 entries), 2,136 jōyō kanji and 127 grammar drills.</li>
             </ul>
             <ul class="stack mono" aria-label="Built with">
-              <li>Next.js 16</li><li>React 19</li><li>TypeScript</li><li>Tailwind v4</li><li>Motion</li><li>Zustand</li><li>Supabase</li><li>Vitest</li>
+              <li>Next.js</li><li>React</li><li>TypeScript</li><li>Supabase</li>
             </ul>
             <p class="project-links">
               <a class="link" href="https://takoodachi.github.io/kotodama/" target="_blank" rel="noopener">Open the app <span aria-hidden="true">↗</span></a>
@@ -203,14 +203,14 @@
           <div class="project-meta">
             <p class="project-kicker mono"><span>Workout + nutrition tracker</span><span>May 2026 – now</span></p>
             <h3 id="p-solo" class="project-title">Solo Leveling</h3>
-            <p class="project-summary">A training log for a group of friends that turns workouts into rank-ups. It works offline first, installs on Android and iOS, and runs entirely on free tiers.</p>
+            <p class="project-summary">A workout and nutrition tracker made for a group of friends and designed to keep them coming back. Training turns into rank-ups, and a shared leaderboard adds friendly competition.</p>
             <ul class="project-points">
-              <li>Everything lands in IndexedDB first, then syncs per user through Supabase with row-level security.</li>
-              <li>Ranks, a friends leaderboard, weekly recaps and a muscle-volume radar keep people coming back.</li>
-              <li>Ships to Android with Capacitor; the web build is served from Cloudflare Workers.</li>
+              <li>Built around motivation: ranks, weekly recaps, check-ins and a friends leaderboard.</li>
+              <li>Works offline in the gym, then syncs to each person's own account.</li>
+              <li>Installs on Android and iOS and runs on free hosting, so it costs the group nothing.</li>
             </ul>
             <ul class="stack mono" aria-label="Built with">
-              <li>React 19</li><li>TypeScript</li><li>Vite</li><li>Tailwind</li><li>Framer Motion</li><li>Dexie</li><li>Supabase</li><li>Recharts</li><li>Capacitor</li>
+              <li>React</li><li>TypeScript</li><li>Supabase</li><li>Capacitor</li>
             </ul>
             <p class="project-links">
               <a class="link" href="https://github.com/Takoodachi/solo-leveling" target="_blank" rel="noopener">Source <span aria-hidden="true">↗</span></a>
@@ -250,14 +250,14 @@
           <div class="project-meta">
             <p class="project-kicker mono"><span>Price comparison + tracking</span><span>Oct 2025 – Sep 2026</span></p>
             <h3 id="p-price" class="project-title">PriceTrack</h3>
-            <p class="project-summary">Search once, compare prices at official stores like Amazon, Best Buy, Walmart and Target, and track favorites on a dashboard that re-checks prices in the background.</p>
+            <p class="project-summary">Comparing prices usually means opening a dozen tabs. PriceTrack searches the official stores at once, shows a best price you can trust, and keeps an eye on your favorites.</p>
             <ul class="project-points">
-              <li>Queries every store in parallel, answers within 2.5 s and streams in slow sources as they arrive.</li>
-              <li>Matches one product across stores by UPC, model number and title similarity, conservatively.</li>
-              <li>Redis cache with single-flight requests; a BullMQ worker runs the scheduled re-checks.</li>
+              <li>Shows results within 2.5 seconds and fills in slower stores as they arrive, so nobody waits on the slowest site.</li>
+              <li>Only new, in-stock offers can be the best price. Used listings, resellers and unconfirmed prices never win.</li>
+              <li>Uses official store data instead of scraping, so results don't break when a site changes its layout.</li>
             </ul>
             <ul class="stack mono" aria-label="Built with">
-              <li>React 19</li><li>TanStack Query</li><li>Tailwind v4</li><li>Express 5</li><li>PostgreSQL</li><li>Redis</li><li>BullMQ</li><li>Turborepo</li><li>Docker</li>
+              <li>React</li><li>Express</li><li>PostgreSQL</li><li>Redis</li>
             </ul>
             <p class="project-links">
               <a class="link" href="https://github.com/Takoodachi/price-tracking-web-app-frontend" target="_blank" rel="noopener">Source <span aria-hidden="true">↗</span></a>
@@ -298,14 +298,14 @@
           <div class="project-meta">
             <p class="project-kicker mono"><span>Portfolio site, built for a client</span><span>Sep – Oct 2026</span></p>
             <h3 id="p-bella" class="project-title">Bella Duong</h3>
-            <p class="project-summary">A portfolio for a student writer, leader, performer and photographer. Paper-textured, warm and bilingual in spirit, written by hand with a small design and motion system.</p>
+            <p class="project-summary">A portfolio for a student writer, leader, performer and photographer, designed to feel like her story: warm, paper-textured and bilingual in spirit.</p>
             <ul class="project-points">
-              <li>Design tokens and three named easing curves keep motion consistent across every page.</li>
-              <li>Paper grain is generated with SVG noise, so the texture costs no image downloads.</li>
-              <li>A custom flip-book turns articles into pages that turn around the spine, plus a PDF.js reader for research.</li>
+              <li>Organized around her four areas (writing, leadership, performance and photography) so each kind of visitor finds their part fast.</li>
+              <li>Her memoir and research read in place, in a page-turning flip-book and a PDF reader, instead of as downloads.</li>
+              <li>One small design and motion system keeps every page feeling like the same person.</li>
             </ul>
             <ul class="stack mono" aria-label="Built with">
-              <li>HTML</li><li>CSS</li><li>JavaScript</li><li>SVG filters</li><li>PDF.js</li><li>GitHub Pages</li>
+              <li>HTML</li><li>CSS</li><li>JavaScript</li><li>PDF.js</li>
             </ul>
             <p class="project-links">
               <a class="link" href="https://takoodachi.github.io/bella-portfolio/" target="_blank" rel="noopener">Visit the site <span aria-hidden="true">↗</span></a>
@@ -343,14 +343,14 @@
           <div class="project-meta">
             <p class="project-kicker mono"><span>Logic puzzle game</span><span>Dec 2025 – now</span></p>
             <h3 id="p-numberlink" class="project-title">Number Link</h3>
-            <p class="project-summary">Draw one path that passes every number in order and fills the whole grid. It runs in the browser and as a native Android app, with accounts and live leaderboards.</p>
+            <p class="project-summary">A logic puzzle game for the web and Android. Draw one path through the numbers in order and fill the whole grid.</p>
             <ul class="project-points">
-              <li>Custom path validation tracks coordinates and collisions on a dynamic grid in real time.</li>
-              <li>Speedrun, Blindfold and Word modes share one object-oriented state system.</li>
-              <li>Firebase Auth and Firestore handle accounts, leaderboards and cross-device saves.</li>
+              <li>Three modes for different kinds of players: Speedrun for competing, Blindfold for a harder challenge and Word Mode for a twist.</li>
+              <li>Accounts, live leaderboards and saves that follow players across devices.</li>
+              <li>The board here is generated fresh every time, always with exactly one solution.</li>
             </ul>
             <ul class="stack mono" aria-label="Built with">
-              <li>JavaScript</li><li>HTML5 Canvas</li><li>CSS3</li><li>Firebase</li><li>Android</li>
+              <li>JavaScript</li><li>Canvas</li><li>Firebase</li><li>Android</li>
             </ul>
             <p class="project-links">
               <a class="link" href="https://takoodachi.github.io/numberlink-game/" target="_blank" rel="noopener">Play the full game <span aria-hidden="true">↗</span></a>
@@ -360,7 +360,7 @@
 
           <div class="project-visual nl-visual" data-visual>
             <div class="nl" data-nl>
-              <div class="nl-head mono"><span>Try it · 5 × 5</span><span data-nl-status role="status">Start on 1, go through every number in order</span></div>
+              <div class="nl-head mono"><span>Puzzle <span data-nl-round>1</span> · 5 × 5</span><span data-nl-status role="status">Start on 1, go through every number in order</span></div>
               <div class="nl-board" data-nl-board role="group" aria-label="Number Link puzzle. With a mouse or finger, drag from 1 through every number in order, filling every square. A new puzzle loads on every visit."></div>
               <div class="nl-foot mono"><span data-nl-fill>0 / 25 squares</span><button class="nl-reset" type="button" data-nl-reset>Reset</button></div>
             </div>
@@ -385,9 +385,9 @@
           <h3 class="job-role"><button class="role-btn" type="button" aria-expanded="false" aria-controls="place-fe">Front-End Developer<svg class="role-pin" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 15s5-4.6 5-8.5a5 5 0 0 0-10 0C3 10.4 8 15 8 15z" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="6.5" r="1.8" fill="currentColor"/></svg></button></h3>
           <p class="job-org">Freelance · Appleton, WI</p>
           <ul class="job-points">
-            <li>Built a responsive design system for a comics platform with CSS custom properties, turning static mockups into a 6 / 4 / 2 column grid for desktop, tablet and phone.</li>
-            <li>Moved a legacy third-party theme from float and flex layouts to CSS Grid, keeping every change in separate templates so theme updates stay safe.</li>
-            <li>Untangled cascade conflicts in a 15,000-line stylesheet and added filemtime-based cache busting.</li>
+            <li>Turned a client's static mockups into a responsive design system for a comics platform, with a 6 / 4 / 2 column grid for desktop, tablet and phone.</li>
+            <li>Rebuilt a legacy theme's layout on CSS Grid while keeping every change upgrade-safe, so the client can keep updating the theme.</li>
+            <li>Fixed conflicting styles across a 15,000-line stylesheet and made sure visitors always load the latest version.</li>
           </ul>
         </div>
         <div class="job-place" id="place-fe">
@@ -410,10 +410,10 @@
           <h3 class="job-role"><button class="role-btn" type="button" aria-expanded="false" aria-controls="place-fpt">Full Stack Developer<svg class="role-pin" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 15s5-4.6 5-8.5a5 5 0 0 0-10 0C3 10.4 8 15 8 15z" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="6.5" r="1.8" fill="currentColor"/></svg></button></h3>
           <p class="job-org">FPT IS · Hanoi, Vietnam</p>
           <ul class="job-points">
-            <li>Built an AI conversion service that turns PDFs, DOCX and other documents into editable HTML templates with up to 90% fidelity to the original.</li>
-            <li>Designed and built a chatbot component for a B2B product on the Gemini API.</li>
-            <li>Tuned prompts to cut user wait time to under a minute while keeping answers relevant.</li>
-            <li>Tested features with cross-functional teams to find bugs and smooth out the experience.</li>
+            <li>Worked with cross-functional teams to test features, find bugs and improve the user experience.</li>
+            <li>Cut the wait for AI answers to under a minute by reworking the prompts, while keeping the answers relevant.</li>
+            <li>Designed and built a chatbot for a B2B product on the Gemini API.</li>
+            <li>Built a service that turns PDFs, Word files and other documents into editable HTML templates, up to 90% faithful to the original.</li>
           </ul>
         </div>
         <div class="job-place" id="place-fpt">
@@ -439,7 +439,7 @@
   <section id="about" class="about wrap" aria-labelledby="about-title">
     <div class="section-head" data-reveal>
       <p class="eyebrow mono">/about</p>
-      <h2 id="about-title" class="section-title">Education and toolbox</h2>
+      <h2 id="about-title" class="section-title">Education and skills</h2>
     </div>
 
     <div class="about-grid">
@@ -459,20 +459,20 @@
 
       <div class="tools" data-reveal>
         <div class="tool-group">
+          <p class="mini-label mono">Product and design</p>
+          <ul><li>Design systems</li><li>Responsive layouts</li><li>Accessible UI</li><li>Interaction and motion design</li><li>Feature testing with cross-functional teams</li><li>Prompt design</li></ul>
+        </div>
+        <div class="tool-group">
           <p class="mini-label mono">Languages</p>
-          <ul><li>JavaScript</li><li>TypeScript</li><li>HTML</li><li>CSS</li><li>Java</li><li>C++</li><li>Python</li><li>R</li><li>SQL</li></ul>
+          <ul><li>JavaScript</li><li>TypeScript</li><li>HTML</li><li>CSS</li><li>Python</li><li>Java</li><li>C++</li><li>R</li><li>SQL</li></ul>
         </div>
         <div class="tool-group">
           <p class="mini-label mono">Frameworks</p>
-          <ul><li>React</li><li>Next.js</li><li>Node.js</li><li>Express</li><li>Tailwind CSS</li><li>Framer Motion</li><li>TanStack Query</li><li>Zustand</li></ul>
+          <ul><li>React</li><li>Next.js</li><li>Node.js</li><li>Express</li><li>Tailwind CSS</li></ul>
         </div>
         <div class="tool-group">
-          <p class="mini-label mono">Data and backend</p>
-          <ul><li>PostgreSQL</li><li>Redis</li><li>Supabase</li><li>Firebase</li><li>IndexedDB</li><li>BullMQ</li></ul>
-        </div>
-        <div class="tool-group">
-          <p class="mini-label mono">Tooling</p>
-          <ul><li>Git + GitHub</li><li>Vite</li><li>Vitest</li><li>Docker</li><li>Turborepo</li><li>Capacitor</li><li>Cloudflare</li></ul>
+          <p class="mini-label mono">Data and tooling</p>
+          <ul><li>PostgreSQL</li><li>Supabase</li><li>Firebase</li><li>Git + GitHub</li><li>Docker</li></ul>
         </div>
       </div>
     </div>
@@ -481,9 +481,9 @@
   <section id="contact" class="contact" aria-labelledby="contact-title">
     <div class="wrap">
       <p class="eyebrow mono">/contact</p>
-      <h2 id="contact-title" class="contact-title" data-stretch aria-label="Let's build something.">Let's build something.</h2>
+      <h2 id="contact-title" class="contact-title" data-stretch aria-label="Let's make something useful.">Let's make something useful.</h2>
       <div class="contact-row">
-        <p class="contact-copy">I'm open to software engineering and front-end internships. Email is the fastest way to reach me.</p>
+        <p class="contact-copy">I'm looking for product management and product design internships, where I can stay close to the people using what we build. Email is the fastest way to reach me.</p>
         <div class="contact-actions">
           <a class="email" href="mailto:luongdtran06@gmail.com">luongdtran06@gmail.com</a>
           <button class="btn" type="button" data-copy="luongdtran06@gmail.com">Copy email</button>
@@ -500,7 +500,7 @@
   <a href="#top">Back to top <span aria-hidden="true">↑</span></a>
 </footer>
 
-<script src="js/numberlink.js?v=11"></script>
-<script src="js/main.js?v=11"></script>
+<script src="js/numberlink.js?v=12"></script>
+<script src="js/main.js?v=12"></script>
 </body>
 </html>
