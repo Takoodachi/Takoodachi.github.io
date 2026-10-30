@@ -788,11 +788,14 @@ button { font: inherit; color: inherit; }
   font-family: var(--f-display);
   font-weight: 700;
   font-variation-settings: "wdth" 80;
-  font-size: clamp(3rem, 11vw, 11rem);
+  font-size: clamp(3rem, 9vw, 9rem);
   line-height: .9;
   letter-spacing: -.04em;
-  text-wrap: balance;
 }
+/* Two fixed lines, sized to leave room on the right, so letters swelling under the cursor
+   can't push a word onto a new line. Phones (no hover effect) wrap normally. */
+.contact-line { display: block; }
+@media (min-width: 720px) { .contact-line { white-space: nowrap; } }
 .contact-title .accent { color: var(--accent); }
 .contact-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 28px; }
 .contact-copy { max-width: 38ch; color: var(--fog); font-size: 1.1rem; }

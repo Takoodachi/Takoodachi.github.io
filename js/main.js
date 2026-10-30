@@ -88,8 +88,11 @@
     addEventListener("pointermove", kick, { passive: true });
     addEventListener("scroll", kick, { passive: true });
     // Stops only once no part of the text is on screen.
-    new IntersectionObserver(([e]) => { visible = e.isIntersecting; kick(); }).observe(el);
+    // Letters move when the web fonts swap in, and text below the fold can shift as the page fills in,
+    // so measure again once fonts are ready and (for text that isn't always waving) each time it comes into view.
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible && !wave) measure(); kick(); }).observe(el);
     measure();
+    if (document.fonts) document.fonts.ready.then(measure);
     return { measure };
   }
 
@@ -156,7 +159,8 @@
   const stretchTitle = $("[data-stretch]");
   let contactType = { measure() {} };
   if (stretchTitle) {
-    split(stretchTitle);
+    let n = 0;
+    $$(".contact-line", stretchTitle).forEach((line) => { n = split(line, n); });
     const chars = $$(".ch", stretchTitle);
     chars[chars.length - 1].classList.add("accent");
     $$(".word", stretchTitle).forEach((w) => w.setAttribute("aria-hidden", "true"));
