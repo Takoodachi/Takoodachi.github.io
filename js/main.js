@@ -68,11 +68,13 @@
       const inside = pointer.x >= r.left && pointer.x <= r.right && pointer.y >= r.top && pointer.y <= r.bottom;
       const px = pointer.x + scrollX, py = pointer.y + scrollY;
       chars.forEach((c, i) => {
-        // The wave never pauses while the name is on screen; the cursor only adds to it.
-        let target = wave ? ((Math.sin(t / 650 - i * 0.5) + 1) / 2) * 0.55 : 0;
+        // Cursor over the area: only the letters near it swell. Anywhere else: the wave (if this text has one).
+        let target = 0;
         if (inside) {
           const k = clamp(1 - Math.hypot(px - centers[i][0], py - centers[i][1]) / radius, 0, 1);
-          target = Math.max(target, k * k * (3 - 2 * k));
+          target = k * k * (3 - 2 * k);
+        } else if (wave) {
+          target = ((Math.sin(t / 650 - i * 0.5) + 1) / 2) * 0.55;
         }
         const next = v[i] + (target - v[i]) * 0.14;
         if (Math.abs(target - next) > 0.002) busy = true;
@@ -81,12 +83,14 @@
           c.style.fontVariationSettings = `"wdth" ${lerp(minW, maxW, next).toFixed(1)}, "wght" ${Math.round(lerp(minG, maxG, next))}`;
         }
       });
-      raf = visible && (busy || wave) ? requestAnimationFrame(frame) : 0;
+      raf = visible && (busy || (wave && !inside)) ? requestAnimationFrame(frame) : 0;
     };
     const kick = () => { if (!raf && visible) raf = requestAnimationFrame(frame); };
 
+    // Any of these can move the cursor into or out of the area, so re-check on each.
     addEventListener("pointermove", kick, { passive: true });
     addEventListener("scroll", kick, { passive: true });
+    root.addEventListener("pointerleave", kick);
     // Stops only once no part of the text is on screen.
     // Letters move when the web fonts swap in, and text below the fold can shift as the page fills in,
     // so measure again once fonts are ready and (for text that isn't always waving) each time it comes into view.
@@ -102,7 +106,7 @@
   if (name) {
     let i = 0;
     $$(".name-line", name).forEach((line) => { i = split(line, i); });
-    // A slow wave runs while the name is on screen; the cursor swells the letters near it.
+    // The name waves while it is on screen and the cursor is elsewhere; over the hero, the letters near the cursor swell instead.
     heroType = stretchy(name, hero, { minW: 92, maxW: 150, minG: 560, maxG: 900, wave: true });
 
     const dims = $("[data-dims]", name);
