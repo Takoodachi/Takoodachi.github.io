@@ -842,6 +842,41 @@ button { font: inherit; color: inherit; }
 .bm-tip .sw { width: 10px; height: 10px; border: 1px solid #0003; display: inline-block; }
 .inspecting, .inspecting * { cursor: crosshair !important; }
 
+/* ---------- custom cursor (js/main.js adds it for mouse and trackpad only) ---------- */
+html.has-cursor:not(.inspecting), html.has-cursor:not(.inspecting) * { cursor: none !important; }
+.cursor {
+  position: fixed; inset: 0; z-index: 200; pointer-events: none;
+  view-transition-name: cursor; /* its own layer, so the palette wipe doesn't freeze it */
+}
+.inspecting .cursor { display: none; }
+.cursor-dot, .cursor-ring { position: fixed; left: 0; top: 0; will-change: transform; }
+.cursor-dot {
+  width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%;
+  background: var(--accent);
+  transition: opacity .2s, scale .25s var(--ease);
+}
+.cursor-shape {
+  position: absolute; left: -18px; top: -18px; width: 36px; height: 36px; border-radius: 50%;
+  border: 1px solid color-mix(in oklab, var(--accent) 55%, transparent);
+  transition: scale .4s var(--ease), background-color .3s, border-color .3s, opacity .3s;
+}
+/* A small tag beside the pointer, so it never covers what you're aiming at */
+.cursor-label {
+  position: absolute; left: 0; top: 0; translate: 18px 16px;
+  padding: 4px 7px; border-radius: 99px;
+  background: var(--accent); color: var(--ink);
+  font: 600 10px/1 var(--f-mono); letter-spacing: .06em; white-space: nowrap;
+  opacity: 0; transition: opacity .2s;
+}
+.cursor.is-link .cursor-shape { scale: 1.55; background: color-mix(in oklab, var(--accent) 14%, transparent); border-color: var(--accent); }
+.cursor.is-link .cursor-dot { scale: .5; }
+.cursor.is-label .cursor-shape { scale: 1.2; border-color: var(--accent); }
+.cursor.is-label .cursor-label { opacity: 1; }
+.cursor.is-down .cursor-shape { scale: .75; }
+.cursor.is-down.is-link .cursor-shape { scale: 1.3; }
+.cursor.is-down.is-label .cursor-label { opacity: 0; }
+.cursor.is-hidden .cursor-dot, .cursor.is-hidden .cursor-shape, .cursor.is-hidden .cursor-label { opacity: 0; }
+
 /* ---------- reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }

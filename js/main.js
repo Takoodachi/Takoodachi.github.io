@@ -10,6 +10,11 @@
   const lerp = (a, b, t) => a + (b - a) * t;
   const hero = $(".hero");
 
+  // Where the mouse is, in viewport coordinates; -1 while it's outside the window or on a touch screen.
+  const pointer = { x: -1, y: -1 };
+  addEventListener("pointermove", (e) => { if (e.pointerType !== "touch") { pointer.x = e.clientX; pointer.y = e.clientY; } }, { passive: true });
+  root.addEventListener("pointerleave", () => { pointer.x = pointer.y = -1; });
+
   /* ---------- local time in Appleton ---------- */
   const clock = $("[data-clock]");
   if (clock) {
@@ -46,8 +51,7 @@
     const chars = $$(".ch", el);
     if (reduce || !chars.length) return { measure() {} };
     const v = chars.map(() => 0);
-    let centers = [], radius = 200, px = 0, py = 0, inside = false, raf = 0, visible = true;
-    let waving = wave;
+    let centers = [], radius = 200, raf = 0, visible = true;
 
     const measure = () => {
       centers = chars.map((c) => {
@@ -59,13 +63,16 @@
 
     const frame = (t) => {
       let busy = false;
+      // Read the mouse every frame, so scrolling carries it across the letters too.
+      const r = area.getBoundingClientRect();
+      const inside = pointer.x >= r.left && pointer.x <= r.right && pointer.y >= r.top && pointer.y <= r.bottom;
+      const px = pointer.x + scrollX, py = pointer.y + scrollY;
       chars.forEach((c, i) => {
-        let target = 0;
+        // The wave never pauses while the name is on screen; the cursor only adds to it.
+        let target = wave ? ((Math.sin(t / 650 - i * 0.5) + 1) / 2) * 0.55 : 0;
         if (inside) {
           const k = clamp(1 - Math.hypot(px - centers[i][0], py - centers[i][1]) / radius, 0, 1);
-          target = k * k * (3 - 2 * k);
-        } else if (waving) {
-          target = ((Math.sin(t / 650 - i * 0.5) + 1) / 2) * 0.55;
+          target = Math.max(target, k * k * (3 - 2 * k));
         }
         const next = v[i] + (target - v[i]) * 0.14;
         if (Math.abs(target - next) > 0.002) busy = true;
@@ -74,16 +81,13 @@
           c.style.fontVariationSettings = `"wdth" ${lerp(minW, maxW, next).toFixed(1)}, "wght" ${Math.round(lerp(minG, maxG, next))}`;
         }
       });
-      raf = visible && (busy || (waving && !inside)) ? requestAnimationFrame(frame) : 0;
+      raf = visible && (busy || wave) ? requestAnimationFrame(frame) : 0;
     };
     const kick = () => { if (!raf && visible) raf = requestAnimationFrame(frame); };
 
-    area.addEventListener("pointermove", (e) => {
-      if (e.pointerType === "touch") return;
-      px = e.pageX; py = e.pageY; inside = true; waving = false;
-      kick();
-    });
-    area.addEventListener("pointerleave", () => { inside = false; kick(); });
+    addEventListener("pointermove", kick, { passive: true });
+    addEventListener("scroll", kick, { passive: true });
+    // Stops only once no part of the text is on screen.
     new IntersectionObserver(([e]) => { visible = e.isIntersecting; kick(); }).observe(el);
     measure();
     return { measure };
@@ -95,7 +99,7 @@
   if (name) {
     let i = 0;
     $$(".name-line", name).forEach((line) => { i = split(line, i); });
-    // Touch screens get a slow wave instead of the cursor effect.
+    // A slow wave runs while the name is on screen; the cursor swells the letters near it.
     heroType = stretchy(name, hero, { minW: 92, maxW: 150, minG: 560, maxG: 900, wave: true });
 
     const dims = $("[data-dims]", name);
@@ -132,16 +136,20 @@
     labels();
     addEventListener("resize", labels);
 
-    hero.addEventListener("pointermove", (e) => {
-      if (e.pointerType === "touch") return;
+    // Guides follow the mouse, and stay under it while the page scrolls.
+    const guides = () => {
       const r = hero.getBoundingClientRect();
-      const x = Math.round(e.clientX - r.left), y = Math.round(e.clientY - r.top);
+      const x = Math.round(pointer.x - r.left), y = Math.round(pointer.y - r.top);
+      const on = pointer.x >= 0 && x >= 0 && y >= 0 && x <= r.width && y <= r.height;
+      hero.classList.toggle("is-pointing", on);
+      if (!on) return;
       gx.style.transform = mx.style.transform = `translateX(${x}px)`;
       gy.style.transform = my.style.transform = `translateY(${y}px)`;
       ox.textContent = x; oy.textContent = y;
-      hero.classList.add("is-pointing");
-    });
-    hero.addEventListener("pointerleave", () => hero.classList.remove("is-pointing"));
+    };
+    addEventListener("pointermove", guides, { passive: true });
+    addEventListener("scroll", guides, { passive: true });
+    root.addEventListener("pointerleave", guides);
   }
 
   /* ---------- contact title reacts the same way ---------- */
@@ -658,6 +666,42 @@
       setTimeout(() => { b.textContent = label; }, 2000);
     });
   });
+
+  /* ---------- custom cursor: an accent dot, and a ring that trails it and reacts to what's under it ---------- */
+  // Mouse and trackpad only. Windows high-contrast mode keeps the system cursor.
+  if (canHover && !matchMedia("(forced-colors: active)").matches) {
+    const cur = document.createElement("div");
+    cur.className = "cursor is-hidden";
+    cur.setAttribute("aria-hidden", "true");
+    cur.innerHTML = '<div class="cursor-ring"><div class="cursor-shape"></div><span class="cursor-label"></span></div><div class="cursor-dot"></div>';
+    document.body.append(cur);
+    root.classList.add("has-cursor");
+    const ring = cur.firstChild, dot = cur.lastChild, label = $(".cursor-label", cur);
+    let rx = 0, ry = 0, raf = 0;
+    const follow = () => {
+      const k = reduce ? 1 : 0.2;
+      rx += (pointer.x - rx) * k;
+      ry += (pointer.y - ry) * k;
+      ring.style.transform = `translate3d(${rx}px, ${ry}px, 0)`;
+      raf = Math.abs(pointer.x - rx) + Math.abs(pointer.y - ry) > 0.2 ? requestAnimationFrame(follow) : 0;
+    };
+    addEventListener("pointermove", (e) => {
+      if (e.pointerType === "touch") return;
+      if (cur.classList.contains("is-hidden")) { rx = e.clientX; ry = e.clientY; } // appear in place, not sliding in from a corner
+      dot.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+      cur.classList.remove("is-hidden");
+      // Links and buttons swell the ring; anything with data-cursor shows that word inside it.
+      const hit = e.target.closest ? e.target.closest("a, button, label, [data-cursor]") : null;
+      const word = hit && hit.dataset.cursor;
+      cur.classList.toggle("is-link", !!hit && !word);
+      cur.classList.toggle("is-label", !!word);
+      if (word) label.textContent = word;
+      if (!raf) raf = requestAnimationFrame(follow);
+    }, { passive: true });
+    root.addEventListener("pointerleave", () => cur.classList.add("is-hidden"));
+    addEventListener("pointerdown", (e) => { if (e.pointerType !== "touch") cur.classList.add("is-down"); });
+    addEventListener("pointerup", () => cur.classList.remove("is-down"));
+  }
 
   /* ---------- Inspect mode: DevTools' element picker, for this page ---------- */
   const toggle = $(".inspect-toggle");
