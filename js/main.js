@@ -524,10 +524,11 @@
       });
       state.path.forEach(([r, c]) => cells[r * 5 + c].classList.add("on"));
       svg.innerHTML = state.path.length > 1 ? `<polyline points="${state.path.map(([r, c]) => `${c + 0.5},${r + 0.5}`).join(" ")}"/>` : "";
-      fill.textContent = `${state.path.length} / 25 squares`;
+      fill.textContent = `${state.path.length}/25`;
       if (done) return;
-      status.textContent = !t0 ? `Start on 1, go through every number to ${LAST}`
-        : next > LAST ? "Every square has to be filled" : `Next: ${next}`;
+      // Kept short so the line never wraps and pushes the board down.
+      status.textContent = !t0 ? `Go 1 → ${LAST}, fill every square`
+        : next > LAST ? "Fill every square to finish" : `Next: ${next}`;
     };
     const cellAt = (e) => {
       const r = board.getBoundingClientRect();
@@ -552,7 +553,7 @@
       done = true;
       drawing = false;
       nl.classList.add("solved");
-      status.textContent = `Solved in ${((performance.now() - t0) / 1000).toFixed(1)} s. Next board coming…`;
+      status.textContent = `Solved in ${((performance.now() - t0) / 1000).toFixed(1)} s · next one…`;
       // Let the win land, fade the board out, then swap in a new one.
       nextTimer = setTimeout(() => {
         nl.classList.add("swapping");

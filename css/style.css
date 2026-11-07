@@ -609,10 +609,21 @@ button { font: inherit; color: inherit; }
 .hg-t { position: absolute; right: .8em; bottom: .7em; font: 500 .72em/1 var(--f-mono); color: #8b93a7; font-variant-numeric: tabular-nums; }
 
 /* Number Link (playable) */
-.nl-visual { padding: clamp(14px, 4cqi, 40px); }
+.nl-visual { padding: 20px; }
 .nl { width: min(100%, 420px); display: grid; gap: 12px; }
-.nl-head, .nl-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; color: var(--fog); font-size: .74rem; }
-[data-nl-status] { color: var(--paper); text-align: right; }
+/* One line each (header, footer), so the board's size alone decides the height */
+.nl-head, .nl-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; color: var(--fog); font-size: .74rem; white-space: nowrap; }
+[data-nl-status] { min-width: 0; overflow: hidden; text-overflow: ellipsis; color: var(--paper); }
+/* Side-by-side layout: the frame has a fixed shape, so the board also shrinks to fit its height
+   (80px covers the header, footer and gaps) and stays centred both ways.
+   Single-column layout: the frame grows to fit the puzzle instead. */
+@media (min-width: 961px) {
+  .nl-visual { container-type: size; }
+  .nl { width: min(100%, 420px, 100cqh - 80px); }
+}
+@media (max-width: 960px) {
+  .project-visual.nl-visual { aspect-ratio: auto; } /* beats the generic phone aspect ratio set later */
+}
 .nl.solved [data-nl-status] { color: var(--accent); }
 .nl-board {
   position: relative;
