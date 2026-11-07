@@ -864,10 +864,13 @@ html.has-cursor:not(.inspecting), html.has-cursor:not(.inspecting) * { cursor: n
 }
 .inspecting .cursor { display: none; }
 .cursor-dot, .cursor-ring { position: fixed; left: 0; top: 0; will-change: transform; }
-.cursor-dot {
-  width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%;
+/* The positioned element only moves; the visible dot is a child, so shrinking it can't
+   scale the position too (scale on the moved element halved its coordinates). */
+.cursor-dot { transition: opacity .2s; }
+.cursor-dot::before {
+  content: ""; position: absolute; left: -3px; top: -3px; width: 6px; height: 6px; border-radius: 50%;
   background: var(--accent);
-  transition: opacity .2s, scale .25s var(--ease);
+  transition: scale .25s var(--ease);
 }
 .cursor-shape {
   position: absolute; left: -18px; top: -18px; width: 36px; height: 36px; border-radius: 50%;
@@ -883,7 +886,7 @@ html.has-cursor:not(.inspecting), html.has-cursor:not(.inspecting) * { cursor: n
   opacity: 0; transition: opacity .2s;
 }
 .cursor.is-link .cursor-shape { scale: 1.55; background: color-mix(in oklab, var(--accent) 14%, transparent); border-color: var(--accent); }
-.cursor.is-link .cursor-dot { scale: .5; }
+.cursor.is-link .cursor-dot::before { scale: .5; }
 .cursor.is-label .cursor-shape { scale: 1.2; border-color: var(--accent); }
 .cursor.is-label .cursor-label { opacity: 1; }
 .cursor.is-down .cursor-shape { scale: .75; }
